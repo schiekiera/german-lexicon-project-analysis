@@ -1,8 +1,9 @@
 clean_data/
+presentation/context/
 .DS_Store
-*.log
 *.tmp
 *.bak
 *.swp
 *.swo
 .Rproj.user
+CLAUDE.md

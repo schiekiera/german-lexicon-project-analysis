@@ -1,0 +1,171 @@
+=== Lexical Decision Data Cleaning and Merging ===
+
+[2026-06-01 15:01:50] [STAGE] Script started
+[2026-06-01 15:01:50] [INFO] Evaluation start time: 2026-06-01 15:01:50
+[2026-06-01 15:01:50] [INFO] Working directory: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_data_project
+[2026-06-01 15:01:50] [INFO] Input directory: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_data_project/data
+[2026-06-01 15:01:50] [INFO] Output prefix: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_data_project/output
+[2026-06-01 15:01:50] [INFO] Local log file: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_data_project/output/log/merger_log_2026-06-01_15-01-50.log
+
+[2026-06-01 15:01:50] [STAGE] Discovering CSV files
+[2026-06-01 15:01:51] [INFO] Found 31633 CSV files
+[2026-06-01 15:01:53] [INFO] All block files discovered: 28804
+[2026-06-01 15:01:53] [INFO] All demo files discovered: 2829
+[2026-06-01 15:01:53] [INFO] Demo files with parseable participant IDs: 2829
+[2026-06-01 15:01:53] [INFO] Participants defined by demo files: 2825
+[2026-06-01 15:01:53] [INFO] Block files linked to demo participants: 28226
+[2026-06-01 15:01:53] [INFO] Participants with block1 file but no demo file: 179
+[2026-06-01 15:01:53] [INFO] File discovery complete (elapsed: 3.2s)
+
+[2026-06-01 15:01:53] [STAGE] Checking block completeness per participant
+[2026-06-01 15:01:58] [INFO] Participants checked: 2825
+[2026-06-01 15:01:58] [INFO] Participants missing >=1 block: 34
+[2026-06-01 15:01:58] [INFO] Example participant IDs with missing blocks: 166370, 25963, 260249, 305117, 348105, 383906, 389833, 401264, 414696, 429427
+[2026-06-01 15:01:58] [INFO] Block completeness check complete (elapsed: 4.4s)
+
+[2026-06-01 15:01:58] [STAGE] Participant exclusion summary
+[2026-06-01 15:01:58] [INFO] Initial participants (demo-defined cohort): 2825
+[2026-06-01 15:01:58] [INFO] Excluded at step 1 (missing blocks 1-10): 34
+[2026-06-01 15:01:58] [INFO] Retained after step 1: 2791
+[2026-06-01 15:01:58] [INFO] Block files loaded before trial-level exclusions: 28226
+[2026-06-01 15:01:58] [INFO] Demo files loaded before trial-level exclusions: 2829
+
+[2026-06-01 15:01:58] [STAGE] Reading and combining block trial files
+[2026-06-01 15:13:31] [INFO] Block files processed successfully: 28226
+[2026-06-01 15:13:31] [INFO] Block files skipped (parse): 0
+[2026-06-01 15:13:31] [INFO] Block files failed to read: 0
+[2026-06-01 15:13:31] [INFO] Block files empty: 0
+[2026-06-01 15:13:31] [INFO] Total trial rows before cleaning: 3527760
+[2026-06-01 15:13:31] [INFO] Block reading complete (elapsed: 693.1s)
+
+[2026-06-01 15:13:31] [STAGE] Cleaning trial data
+[2026-06-01 15:18:04] [INFO] Trial rows after cleaning: 3527760
+[2026-06-01 15:18:04] [INFO] Trial data cleaning complete (elapsed: 273.0s)
+
+[2026-06-01 15:18:04] [STAGE] Applying step 1 exclusion to trials
+[2026-06-01 15:18:05] [INFO] Step 1 excluded trial rows: 34451
+[2026-06-01 15:18:05] [INFO] Trial rows retained after step 1: 3493309
+[2026-06-01 15:18:05] [INFO] Step 1 trial exclusion complete (elapsed: 0.9s)
+
+[2026-06-01 15:18:05] [STAGE] Final participant exclusion by minimum trial count
+[2026-06-01 15:18:06] [INFO] Excluded at step 2 (<1250 total trials): 1
+[2026-06-01 15:18:06] [INFO] Retained after step 2: 2790
+[2026-06-01 15:18:07] [INFO] Trial rows after step 2 exclusion: 3492500
+[2026-06-01 15:18:07] [INFO] Step 2 excluded trial rows: 809
+[2026-06-01 15:18:07] [INFO] Total excluded trial rows (all steps): 35260
+[2026-06-01 15:18:07] [INFO] Example excluded participant IDs (<1250 trials): 761389
+[2026-06-01 15:18:07] [INFO] Trial-count exclusion complete (elapsed: 1.2s)
+
+[2026-06-01 15:18:07] [STAGE] Reading and combining demographics files
+[2026-06-01 15:19:19] [INFO] Demo files processed successfully: 2794
+[2026-06-01 15:19:19] [INFO] Demo files skipped (parse): 0
+[2026-06-01 15:19:19] [INFO] Demo files failed to read: 0
+[2026-06-01 15:19:19] [INFO] Demo files empty: 0
+[2026-06-01 15:19:19] [INFO] Total demo rows before summarising: 8382
+[2026-06-01 15:19:19] [INFO] Demographics reading complete (elapsed: 72.5s)
+
+[2026-06-01 15:19:19] [STAGE] Summarising demographics to one row per participant
+[2026-06-01 15:19:20] [INFO] Demographics summarised for 2790 participants
+[2026-06-01 15:19:20] [INFO] Demographics summarisation complete (elapsed: 1.1s)
+
+[2026-06-01 15:19:20] [STAGE] Merging trial and demographics
+[2026-06-01 15:19:21] [INFO] Rows after merge: 3492500
+[2026-06-01 15:19:21] [INFO] Columns after merge: 36
+[2026-06-01 15:19:21] [INFO] Merge complete (elapsed: 1.0s)
+
+[2026-06-01 15:19:21] [STAGE] Applying final column ordering and derived variables
+[2026-06-01 15:19:22] [INFO] Final dataset rows: 3492500
+[2026-06-01 15:19:22] [INFO] Final dataset columns: 31
+[2026-06-01 15:19:22] [INFO] Final transformations complete (elapsed: 1.2s)
+
+[2026-06-01 15:19:22] [STAGE] Participant exclusion by native German status
+[2026-06-01 15:19:24] [INFO] Excluded at step 3 (non-native German): 259
+[2026-06-01 15:19:24] [INFO] Step 3 excluded trial rows: 323750
+[2026-06-01 15:19:24] [INFO] Retained after step 3: 2531
+[2026-06-01 15:19:24] [INFO] Example excluded participant IDs (non-native German): 10014, 105877, 10853, 109591, 109642, 113885, 114202, 117939, 119961, 120252
+[2026-06-01 15:19:24] [INFO] Native German exclusion complete (elapsed: 1.5s)
+
+[2026-06-01 15:19:24] [STAGE] Participant exclusion by minimum accuracy threshold
+[2026-06-01 15:19:26] [INFO] Excluded at step 4 (accuracy < 0.75): 54
+[2026-06-01 15:19:26] [INFO] Step 4 excluded trial rows: 67500
+[2026-06-01 15:19:26] [INFO] Retained after step 4: 2477
+[2026-06-01 15:19:26] [INFO] Example excluded participant IDs (accuracy < 0.75): 144194, 173353, 191115, 207971, 215853, 221110, 235689, 25565, 285037, 291302
+[2026-06-01 15:19:26] [INFO] Total excluded trial rows (all steps): 426510
+[2026-06-01 15:19:26] [INFO] Accuracy-threshold exclusion complete (elapsed: 1.8s)
+
+[2026-06-01 15:19:26] [STAGE] Participant exclusion by minimum age threshold
+[2026-06-01 15:19:26] [INFO] Participants with missing/unparseable age (not excluded): 13
+[2026-06-01 15:19:26] [INFO] Missing age IDs: 190304, 220072, 440799, 526401, 614596, 699906, 737415, 751663, 758477, 805894
+[2026-06-01 15:19:28] [INFO] Excluded at step 5 (age < 18): 3
+[2026-06-01 15:19:28] [INFO] Step 5 excluded trial rows: 3750
+[2026-06-01 15:19:28] [INFO] Retained after step 5: 2474
+[2026-06-01 15:19:28] [INFO] Example excluded participant IDs (underage): 269034, 429072, 54533
+[2026-06-01 15:19:28] [INFO] Age exclusion complete (elapsed: 2.4s)
+
+[2026-06-01 15:19:28] [STAGE] Writing output file
+[2026-06-01 15:19:28] [INFO] Writing final precleaned output to: output/raw_data/final_data_precleaned_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:28] [INFO] Writing snapshot after step 3 to: output/snapshot_after_step3_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:28] [INFO] Writing exclusions (all steps) to: output/exclusions_all_data_cleaned_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:30] [INFO] Successfully wrote 3168750 rows to output/snapshot_after_step3_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:33] [INFO] Successfully wrote 3097500 rows to output/raw_data/final_data_precleaned_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:35] [INFO] Successfully wrote 3097500 anonymized rows to output/clean_data/anonymized_final_data_precleaned_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:36] [INFO] Successfully wrote 430260 excluded trial rows to output/exclusions_all_data_cleaned_2026-06-01_15-19-28.csv
+[2026-06-01 15:19:36] [INFO] Output writing complete (elapsed: 7.5s)
+
+[2026-06-01 15:19:36] [STAGE] Cleaning data finished
+[2026-06-01 15:19:36] [INFO] Total runtime: 1065.6 seconds
+
+[2026-06-01 15:19:36] [STAGE] Final participant exclusion summary
+[2026-06-01 15:19:36] [INFO] --------------------------------------------------
+[2026-06-01 15:19:36] [INFO] INITIAL participants: 2825
+[2026-06-01 15:19:36] [INFO] Excluded step 1 (missing blocks): 34
+[2026-06-01 15:19:36] [INFO] Excluded step 2 (<1250 trials): 1
+[2026-06-01 15:19:36] [INFO] Excluded step 3 (non-native German): 259
+[2026-06-01 15:19:36] [INFO] Excluded step 4 (accuracy < 0.75): 54
+[2026-06-01 15:19:36] [INFO] Excluded step 5 (underage): 3
+[2026-06-01 15:19:36] [INFO] --------------------------------------------------
+[2026-06-01 15:19:36] [INFO] TOTAL excluded participants (unique): 351
+[2026-06-01 15:19:36] [INFO] FINAL participants retained: 2474
+[2026-06-01 15:19:36] [INFO] --------------------------------------------------
+[2026-06-01 15:19:36] [INFO] Final exclusion summary complete (elapsed: 0.1s)
+
+[2026-06-01 15:19:39] [STAGE] Diagnosing duplicated IDs and overused lists
+[2026-06-01 15:19:41] [INFO] Number of duplicated global IDs: 306
+[2026-06-01 15:19:41] [INFO] Top duplicated IDs: 1445, 1665, 28, 37, 38, 39, 47, 56, 57, 62, 68, 78, 84, 87, 88, 90, 105, 109, 110, 111
+[2026-06-01 15:19:42] [INFO] Number of overused lists: 67
+[2026-06-01 15:19:42] [INFO] Overused lists (list: excess participants): 35:12, 10:10, 2:9, 9:9, 13:9, 22:9, 27:9, 7:8, 11:8, 17:8, 25:8, 26:8, 28:8, 3:7, 30:7, 34:7, 50:7, 5:6, 6:6, 14:6, 19:6, 24:6, 31:6, 32:6, 33:6, 1:5, 12:5, 16:5, 20:5, 21:5, 15:4, 18:4, 38:4, 44:4, 53:4, 61:4, 4:3, 23:3, 29:3, 37:3, 45:3, 46:3, 48:3, 57:3, 59:3, 60:3, 66:3, 8:2, 36:2, 39:2, 40:2, 47:2, 49:2, 52:2, 54:2, 55:2, 56:2, 62:2, 67:2, 69:2, 70:2, 41:1, 42:1, 43:1, 51:1, 58:1, 64:1
+[2026-06-01 15:19:42] [INFO] Duplicated participant slots within lists: 306
+[2026-06-01 15:19:42] [INFO] Example duplicated slots (list-participant_in_list): 31-5, 35-33, 1-28, 1-37, 1-38, 1-39, 1-47, 2-8, 2-9, 2-14
+[2026-06-01 15:19:42] [INFO] Diagnostic files written to output/
+
+[2026-06-01 15:19:42] [STAGE] Refill ID mapping (full reconstruction approach)
+[2026-06-01 15:19:42] [INFO] Total possible global IDs: 2170
+
+[2026-06-01 15:19:42] [STAGE] Reconstructing valid global IDs
+[2026-06-01 15:19:42] [INFO] Valid global IDs: 2170
+
+[2026-06-01 15:19:42] [STAGE] Reconstructing excluded global IDs
+[2026-06-01 15:19:42] [INFO] Excluded global IDs: 299
+
+[2026-06-01 15:19:42] [STAGE] Computing refill IDs
+[2026-06-01 15:19:42] [INFO] Total IDs needing sampling: 0
+
+[2026-06-01 15:19:42] [STAGE] Diagnostics
+[2026-06-01 15:19:42] [INFO] IDs from exclusions: 0
+[2026-06-01 15:19:42] [INFO] IDs never sampled: 0
+[2026-06-01 15:19:42] [INFO] Refill ID list written to: output/ids_to_refill_2026-06-01_15-19-42.txt
+
+[2026-06-01 15:19:42] [STAGE] Computing participant counts per list
+[2026-06-01 15:19:42] [INFO] List-level participant summary:
+[2026-06-01 15:19:43] [INFO] Lists with deviations from expected:
+[2026-06-01 15:19:43] [INFO] Sample of lists with missing participants:
+[2026-06-01 15:19:43] [INFO] Sample of lists with additional participants:
+[2026-06-01 15:19:43] [INFO] Total missing participants across all lists: 0
+[2026-06-01 15:19:43] [INFO] Total additional participants across all lists: 306
+[2026-06-01 15:19:43] [INFO] Net deviation (additional - missing): 306
+[2026-06-01 15:19:43] [INFO] Expected refill IDs from earlier calculation: 0
+[2026-06-01 15:19:43] [INFO] Total missing from list summary: 0
+[2026-06-01 15:19:43] [INFO] ✓ Consistency check passed: missing count matches refill IDs
+[2026-06-01 15:19:43] [INFO] List summary written to: output/list_summary_2026-06-01_15-19-42.csv
+[2026-06-01 15:19:43] [INFO] Detailed additional IDs written to: output/additional_ids_detail_2026-06-01_15-19-42.csv
+[2026-06-01 15:19:43] [INFO] Script finished successfully
