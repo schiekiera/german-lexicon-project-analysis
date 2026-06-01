@@ -1,0 +1,2 @@
+n_participants,accuracy_mean_across_participants,accuracy_sd_across_participants,accuracy_median_across_participants,accuracy_min_across_participants,accuracy_max_across_participants
+2474,0.9358628940986257,0.039387208496635066,0.9448,0.7536,0.9944

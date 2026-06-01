@@ -7,12 +7,17 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(lme4)
+library(here)
 
+data_dir <- "clean_data"
 
+input_files <- list.files(data_dir, pattern = "anonymized_final_data_precleaned_.*\\.csv$", full.names = TRUE)
+if (length(input_files) == 0) stop("No cleaned data file found in data_dir")
+latest_file <- input_files[which.max(file.info(input_files)$mtime)]
 
-glp <- read_csv("output/shared_anonymized_data_precleaned_2026-03-03_09-51-51.csv") |>
-  dplyr::select(anon_id, word, rt, type) |>
-  filter(!is.na(anon_id), !is.na(word), !is.na(rt), !is.na(type)) |>
+glp <- read_csv(latest_file, show_col_types = FALSE) |>
+  dplyr::select(subject_id, word, rt, type) |>
+  filter(!is.na(subject_id), !is.na(word), !is.na(rt), !is.na(type)) |>
   filter(rt >= 200, rt <= 4000) |>
   mutate(log_rt = log(rt))
 
@@ -53,7 +58,7 @@ sb_res <- tribble(
   "word", ICC2.lme2(log_rt, word, data=filter(glp, type=="word")),
   "pseudoword", ICC2.lme2(log_rt, word, data=filter(glp, type=="pseudoword"))
 ) |>
-  mutate( n_obs = length(unique(glp$anon_id)) )
+  mutate( n_obs = length(unique(glp$subject_id)) )
 
 # predicted spearman brown values
 sb_pred <- expand_grid(

@@ -4,21 +4,28 @@ library(tidyr)
 library(purrr)
 library(parallel)
 library(pbapply)
+library(here)
+
 pboptions(type = "txt")
 
 # -----------------------------
 # Load and prepare data
 # -----------------------------
 cat("Loading data...\n")
-glp <- read_csv("output/shared_anonymized_data_precleaned_2026-03-03_09-51-51.csv", show_col_types = FALSE) %>%
-  # need participant id to split by participants
-  select(anon_id, word, rt) %>%
-  filter(!is.na(anon_id), !is.na(word), !is.na(rt)) %>%
-  filter(rt >= 200, rt <= 4000) %>%          # apply your RT bounds (adjust if needed)
+
+data_dir <- here("clean_data")
+input_files <- list.files(data_dir, pattern = "anonymized_final_data_precleaned_.*\\.csv$", full.names = TRUE)
+if (length(input_files) == 0) stop("No cleaned data file found in clean_data/")
+latest_file <- input_files[which.max(file.info(input_files)$mtime)]
+
+glp <- read_csv(latest_file, show_col_types = FALSE) %>%
+  select(subject_id, word, rt) %>%
+  filter(!is.na(subject_id), !is.na(word), !is.na(rt)) %>%
+  filter(rt >= 200, rt <= 4000) %>%
   mutate(log_rt = log(rt))
 
 
-participants <- unique(glp$anon_id)
+participants <- unique(glp$subject_id)
 
 if (length(participants) < 4) stop("Too few participants for split-half reliability.")
 
@@ -35,12 +42,12 @@ sb_iteration <- function(seed = NULL) {
 
   # Item means in each half
   means_A <- glp %>%
-    filter(anon_id %in% A_ids) %>%
+    filter(subject_id %in% A_ids) %>%
     group_by(word) %>%
     summarise(mean_A = mean(log_rt, na.rm = TRUE), .groups = "drop")
 
   means_B <- glp %>%
-    filter(anon_id %in% B_ids) %>%
+    filter(subject_id %in% B_ids) %>%
     group_by(word) %>%
     summarise(mean_B = mean(log_rt, na.rm = TRUE), .groups = "drop")
 
