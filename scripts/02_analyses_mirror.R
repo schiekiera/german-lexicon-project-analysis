@@ -15,6 +15,7 @@ library(stringr)
 library(scales)
 library(ggplot2)
 library(dePlzMap)
+library(here)
 
 # 1.2 Run metadata
 run_timestamp <- format(Sys.time(), "%Y-%m-%d_%H-%M-%S")
@@ -24,13 +25,14 @@ run_timestamp <- format(Sys.time(), "%Y-%m-%d_%H-%M-%S")
 # ============================================================
 # 2.1 Output directories (local + mirror)
 output_dir <- "output"
+data_dir <- "clean_data"
 summary_dir <- file.path(output_dir, "summary")
 plots_dir <- file.path(output_dir, "plots")
 log_dir <- file.path(output_dir, "log")
 
-summary_dir_presentation <- "/Users/louis/Desktop/HU_Berlin_Computational_Modelling/03_LaTeX/02_Presentations/TRUST_GLP_data/context/summary"
-plots_dir_presentation <- "/Users/louis/Desktop/HU_Berlin_Computational_Modelling/03_LaTeX/02_Presentations/TRUST_GLP_data/plots"
-log_dir_presentation <- "/Users/louis/Desktop/HU_Berlin_Computational_Modelling/03_LaTeX/02_Presentations/TRUST_GLP_data/context/log"
+summary_dir_presentation <- here::here("output/summary")
+plots_dir_presentation <- here::here("output/plots")
+log_dir_presentation <- here::here("output/log")
 
 # 2.2 Ensure directories exist
 for (d in c(summary_dir, plots_dir, log_dir, summary_dir_presentation, plots_dir_presentation, log_dir_presentation)) {
@@ -118,7 +120,7 @@ log_info("Mirror log file:", log_file_presentation)
 # ============================================================
 # 3.1 Locate latest merged dataset (final precleaned for all analyses)
 log_stage("3. Load data")
-input_files <- list.files(output_dir, pattern = "final_data_precleaned_.*\\.csv$", full.names = TRUE)
+input_files <- list.files(data_dir, pattern = "anonymized_final_data_precleaned_.*\\.csv$", full.names = TRUE)
 if (length(input_files) == 0) stop("No cleaned data file found in output/")
 
 latest_file <- input_files[which.max(file.info(input_files)$mtime)]

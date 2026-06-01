@@ -14,6 +14,8 @@ library(multilevel)
 library(parallel)
 library(pbapply)
 
+library(here)
+
 pboptions(type = "txt")
 
 set.seed(12345)
@@ -21,7 +23,10 @@ set.seed(12345)
 # -----------------------------
 # Inputs
 # -----------------------------
-file_path <- "output/shared_anonymized_data_precleaned_2026-03-03_09-51-51.csv"
+data_dir <- "clean_data"
+input_files <- list.files(data_dir, pattern = "anonymized_final_data_precleaned_.*\\.csv$", full.names = TRUE)
+if (length(input_files) == 0) stop("No cleaned data file found in data_dir")
+file_path <- input_files[which.max(file.info(input_files)$mtime)]
 
 targets <- c(1440, 1680, 1920, 2160)  # projections in participant counts
 
@@ -32,14 +37,14 @@ n_cores <- max(1, detectCores() - 1)  # for split-half parallelism
 # Load + clean
 # -----------------------------
 glp <- read_csv(file_path, show_col_types = FALSE) |>
-  dplyr::select(anon_id, word, rt, type) |>
-  filter(!is.na(anon_id), !is.na(word), !is.na(rt), !is.na(type)) |>
+  dplyr::select(subject_id, word, rt, type) |>
+  filter(!is.na(subject_id), !is.na(word), !is.na(rt), !is.na(type)) |>
   filter(rt >= 200, rt <= 4000) |>
   mutate(
     log_rt = log(rt),
     type   = as.character(type),
     word   = as.factor(word),
-    anon_id = as.factor(anon_id)
+    subject_id = as.factor(subject_id)
   )
 
 # -----------------------------
@@ -71,7 +76,7 @@ sb_project <- function(r_current, n_current, targets) {
 # -----------------------------
 reliability_approach1 <- function(df) {
   # Minimal model with word + anon random intercepts
-  m <- lmer(log_rt ~ 1 + (1 | word) + (1 | anon_id), data = df, REML = FALSE)
+  m <- lmer(log_rt ~ 1 + (1 | word) + (1 | subject_id), data = df, REML = FALSE)
   
   vc <- as.data.frame(VarCorr(m))
   
@@ -86,7 +91,7 @@ reliability_approach1 <- function(df) {
   
   list(
     reliability_current = as.numeric(icc_item),
-    n_current = length(unique(df$anon_id))
+    n_current = length(unique(df$subject_id))
   )
 }
 
@@ -119,7 +124,7 @@ reliability_approach2 <- function(df) {
   r <- ICC2.lme2(log_rt, word, data = df, weighted = FALSE)
   list(
     reliability_current = as.numeric(r),
-    n_current = length(unique(df$anon_id))
+    n_current = length(unique(df$subject_id))
   )
 }
 
@@ -127,7 +132,7 @@ reliability_approach2 <- function(df) {
 # APPROACH 3: split-half over participants (Spearman–Brown corrected)
 # -----------------------------
 split_half_reliability <- function(df, n_samp = 1000, n_cores = 1, base_seed = 10000) {
-  participants <- unique(df$anon_id)
+  participants <- unique(df$subject_id)
   
   if (length(participants) < 4) stop("Too few participants for split-half reliability.")
   
@@ -139,12 +144,12 @@ split_half_reliability <- function(df, n_samp = 1000, n_cores = 1, base_seed = 1
     B_ids  <- setdiff(participants, A_ids)
     
     means_A <- df %>%
-      filter(anon_id %in% A_ids) %>%
+      filter(subject_id %in% A_ids) %>%
       group_by(word) %>%
       summarise(mean_A = mean(log_rt, na.rm = TRUE), .groups = "drop")
     
     means_B <- df %>%
-      filter(anon_id %in% B_ids) %>%
+      filter(subject_id %in% B_ids) %>%
       group_by(word) %>%
       summarise(mean_B = mean(log_rt, na.rm = TRUE), .groups = "drop")
     
@@ -183,7 +188,7 @@ split_half_reliability <- function(df, n_samp = 1000, n_cores = 1, base_seed = 1
   
   list(
     reliability_current = as.numeric(res_summ$reliability_current),
-    n_current = length(unique(df$anon_id)),
+    n_current = length(unique(df$subject_id)),
     split_details = res,
     split_summary = res_summ
   )
@@ -299,8 +304,8 @@ p <- ggplot() +
   theme(legend.position = "top")
 
 print(p)
-ggsave("output/plots/reliability_projections_all_conditions.png", p, width = 10, height = 4, dpi = 300)
-ggsave("output/plots/reliability_projections_all_conditions.pdf", p)
+ggsave(here::here("output/plots/reliability_projections_all_conditions.png"), p, width = 10, height = 4, dpi = 300)
+ggsave(here::here("output/plots/reliability_projections_all_conditions.pdf"), p)
 
 # Also save the tidy results table for convenience
-write_csv(results_tidy, "output/log/reliability_results_tidy.csv")
+write_csv(results_tidy, here::here("output/log/reliability_results_tidy.csv"))
