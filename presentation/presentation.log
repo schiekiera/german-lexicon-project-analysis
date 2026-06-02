@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.30)  1 JUN 2026 17:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.30)  2 JUN 2026 12:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1116,6 +1116,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring OFF on input line 67.
+ (./presentation.out) (./presentation.out)
 \@outlinefile=\write6
 \openout6 = `presentation.out'.
 
@@ -1210,7 +1211,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [2
 
 ]
-<../output/plots/data_collection/overall_progress.png, id=31, 722.7pt x 361.35pt>
+<../output/plots/data_collection/overall_progress.png, id=35, 722.7pt x 361.35pt>
 File: ../output/plots/data_collection/overall_progress.png Graphic file (type png)
 <use ../output/plots/data_collection/overall_progress.png>
 Package pdftex.def Info: ../output/plots/data_collection/overall_progress.png  used on input line 159.
@@ -1220,7 +1221,7 @@ Package pdftex.def Info: ../output/plots/data_collection/overall_progress.png  u
 [3
 
  <../output/plots/data_collection/overall_progress.png>]
-<../output/plots/data_collection/new_datasets_per_day.png, id=40, 722.7pt x 361.35pt>
+<../output/plots/data_collection/new_datasets_per_day.png, id=44, 722.7pt x 361.35pt>
 File: ../output/plots/data_collection/new_datasets_per_day.png Graphic file (type png)
 <use ../output/plots/data_collection/new_datasets_per_day.png>
 Package pdftex.def Info: ../output/plots/data_collection/new_datasets_per_day.png  used on input line 167.
@@ -1238,7 +1239,7 @@ Package pdftex.def Info: ../output/plots/data_collection/new_datasets_per_day.pn
 [6
 
 ]
-<../output/plots/age_histogram.pdf, id=58, 650.43pt x 433.62pt>
+<../output/plots/age_histogram.pdf, id=62, 650.43pt x 433.62pt>
 File: ../output/plots/age_histogram.pdf Graphic file (type pdf)
 <use ../output/plots/age_histogram.pdf>
 Package pdftex.def Info: ../output/plots/age_histogram.pdf  used on input line 308.
@@ -1252,7 +1253,7 @@ Overfull \vbox (12.38254pt too high) detected at line 308
 [7
 
  <../output/plots/age_histogram.pdf>]
-<../output/plots/german_origin_plz_map.pdf, id=74, 650.43pt x 505.89pt>
+<../output/plots/german_origin_plz_map.pdf, id=78, 650.43pt x 505.89pt>
 File: ../output/plots/german_origin_plz_map.pdf Graphic file (type pdf)
 <use ../output/plots/german_origin_plz_map.pdf>
 Package pdftex.def Info: ../output/plots/german_origin_plz_map.pdf  used on input line 342.
@@ -1270,7 +1271,7 @@ Overfull \hbox (22.02519pt too wide) in paragraph at lines 380--380
  [][]  
  []
 
-<../output/plots/accuracy_histogram.pdf, id=90, 650.43pt x 433.62pt>
+<../output/plots/accuracy_histogram.pdf, id=94, 650.43pt x 433.62pt>
 File: ../output/plots/accuracy_histogram.pdf Graphic file (type pdf)
 <use ../output/plots/accuracy_histogram.pdf>
 Package pdftex.def Info: ../output/plots/accuracy_histogram.pdf  used on input line 380.
@@ -1288,7 +1289,7 @@ Overfull \hbox (11.34886pt too wide) in paragraph at lines 416--416
  [][]  
  []
 
-<../output/plots/rt_histogram.pdf, id=104, 650.43pt x 433.62pt>
+<../output/plots/rt_histogram.pdf, id=108, 650.43pt x 433.62pt>
 File: ../output/plots/rt_histogram.pdf Graphic file (type pdf)
 <use ../output/plots/rt_histogram.pdf>
 Package pdftex.def Info: ../output/plots/rt_histogram.pdf  used on input line 416.
@@ -1298,12 +1299,12 @@ Package pdftex.def Info: ../output/plots/rt_histogram.pdf  used on input line 41
 [10
 
  <../output/plots/rt_histogram.pdf>]
-<../output/plots/accuracy_by_block.pdf, id=118, 650.43pt x 433.62pt>
+<../output/plots/accuracy_by_block.pdf, id=122, 650.43pt x 433.62pt>
 File: ../output/plots/accuracy_by_block.pdf Graphic file (type pdf)
 <use ../output/plots/accuracy_by_block.pdf>
 Package pdftex.def Info: ../output/plots/accuracy_by_block.pdf  used on input line 436.
 (pdftex.def)             Requested size: 191.20082pt x 127.46686pt.
-<../output/plots/rt_by_block.pdf, id=119, 650.43pt x 433.62pt>
+<../output/plots/rt_by_block.pdf, id=123, 650.43pt x 433.62pt>
 File: ../output/plots/rt_by_block.pdf Graphic file (type pdf)
 <use ../output/plots/rt_by_block.pdf>
 Package pdftex.def Info: ../output/plots/rt_by_block.pdf  used on input line 436.
@@ -1313,12 +1314,22 @@ Package pdftex.def Info: ../output/plots/rt_by_block.pdf  used on input line 436
 [11
 
  <../output/plots/accuracy_by_block.pdf> <../output/plots/rt_by_block.pdf>]
+<../output/plots/reliability_methods_comparison.pdf, id=139, 686.565pt x 361.35pt>
+File: ../output/plots/reliability_methods_comparison.pdf Graphic file (type pdf)
+<use ../output/plots/reliability_methods_comparison.pdf>
+Package pdftex.def Info: ../output/plots/reliability_methods_comparison.pdf  used on input line 466.
+(pdftex.def)             Requested size: 239.00558pt x 125.79068pt.
+
 
 [12
 
-]
+ <../output/plots/reliability_methods_comparison.pdf>]
 
 [13
+
+]
+
+[14
 
 ]
 \tf@nav=\write7
@@ -1335,43 +1346,25 @@ Package pdftex.def Info: ../output/plots/rt_by_block.pdf  used on input line 436
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-09-02>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `presentation.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `presentation.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  58F563911B81675A0F2EF99D88E55972;200.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                presentation
-(biblatex)                and rerun LaTeX afterwards.
-
+Package rerunfilecheck Info: File `presentation.out' has not changed.
+(rerunfilecheck)             Checksum: 58F563911B81675A0F2EF99D88E55972;200.
 Package logreq Info: Writing requests to 'presentation.run.xml'.
 \openout1 = `presentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47946 strings out of 469658
- 1127232 string characters out of 5473869
- 2051382 words of memory out of 5000000
- 75592 multiletter control sequences out of 15000+600000
- 637757 words of font info for 77 fonts, out of 8000000 for 9000
+ 47976 strings out of 469658
+ 1128001 string characters out of 5473869
+ 2051575 words of memory out of 5000000
+ 75613 multiletter control sequences out of 15000+600000
+ 639646 words of font info for 84 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 101i,15n,107p,1879b,1752s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on presentation.pdf (13 pages, 21977584 bytes).
+ 101i,15n,107p,1879b,1750s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on presentation.pdf (14 pages, 22018512 bytes).
 PDF statistics:
- 205 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 83 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 240 PDF objects out of 1000 (max. 8388607)
+ 166 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
+ 96 words of extra memory for PDF output out of 10000 (max. 10000000)
 

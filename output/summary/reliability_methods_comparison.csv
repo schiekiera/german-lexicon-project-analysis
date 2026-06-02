@@ -1,0 +1,16 @@
+condition,approach,reliability_current,n_current
+overall,approach_1_mixed_icc,0.925615106981641,2474
+overall,approach_3_split_half,0.880963888165107,2474
+overall,brysbaert_icc1k,0.903084988957064,2474
+overall,brysbaert_icc2k,0.902140577973529,2474
+overall,brysbaert_icc3k,0.93681193150286,2474
+words_only,approach_1_mixed_icc,0.84939634736401,2474
+words_only,approach_3_split_half,0.858363949702185,2474
+words_only,brysbaert_icc1k,0.892132146201331,2474
+words_only,brysbaert_icc2k,0.892606813439116,2474
+words_only,brysbaert_icc3k,0.930671098253856,2474
+pseudo_only,approach_1_mixed_icc,0.845287584040734,2474
+pseudo_only,approach_3_split_half,0.854475395438628,2474
+pseudo_only,brysbaert_icc1k,0.879181026964641,2474
+pseudo_only,brysbaert_icc2k,0.878749948451687,2474
+pseudo_only,brysbaert_icc3k,0.926886581687817,2474
