@@ -1,2 +1,2 @@
 n_participants,n_valid_age,n_missing_or_invalid_age,min_age,q1_age,median_age,mean_age,q3_age,max_age,sd_age
-2474,2472,2,18,21,23,26.72168284789644,29,77,9.374110351406857
+2479,2475,4,18,21,23,26.719191919191918,29,77,9.37004977653851

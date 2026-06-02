@@ -1,0 +1,202 @@
+[2026-06-02 21:05:04] [STAGE] 2. Paths and logging initialized
+[2026-06-02 21:05:04] [STAGE] 2. Paths and logging initialized
+[2026-06-02 21:05:04] [INFO] Run timestamp: 2026-06-02_21-05-04
+[2026-06-02 21:05:04] [INFO] Run timestamp: 2026-06-02_21-05-04
+[2026-06-02 21:05:04] [INFO] Local log file: output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:05:04] [INFO] Local log file: output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:05:04] [INFO] Mirror log file: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:05:04] [INFO] Mirror log file: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:05:04] [STAGE] 3. Load data
+[2026-06-02 21:05:04] [STAGE] 3. Load data
+[2026-06-02 21:05:04] [INFO] Using input file: clean_data/anonymized_final_data_precleaned_2026-06-02_19-08-11.csv
+[2026-06-02 21:05:04] [INFO] Using input file: clean_data/anonymized_final_data_precleaned_2026-06-02_19-08-11.csv
+[2026-06-02 21:05:16] [INFO] Rows loaded: 3098750
+[2026-06-02 21:05:16] [INFO] Rows loaded: 3098750
+[2026-06-02 21:05:16] [INFO] Participants loaded: 2479
+[2026-06-02 21:05:16] [INFO] Participants loaded: 2479
+[2026-06-02 21:07:49] [INFO] Using snapshot file for accuracy histogram: output/snapshot_after_step3_2026-06-02_19-08-11.csv
+[2026-06-02 21:07:49] [INFO] Using snapshot file for accuracy histogram: output/snapshot_after_step3_2026-06-02_19-08-11.csv
+[2026-06-02 21:08:01] [INFO] Snapshot rows loaded: 3170000
+[2026-06-02 21:08:01] [INFO] Snapshot rows loaded: 3170000
+[2026-06-02 21:08:03] [INFO] Snapshot participants loaded: 2536
+[2026-06-02 21:08:03] [INFO] Snapshot participants loaded: 2536
+[2026-06-02 21:08:03] [STAGE] 4. Prepare analysis dataset
+[2026-06-02 21:08:03] [STAGE] 4. Prepare analysis dataset
+[2026-06-02 21:08:07] [INFO] Valid RT rows: 3098750
+[2026-06-02 21:08:07] [INFO] Valid RT rows: 3098750
+[2026-06-02 21:08:07] [INFO] Trimmed RT rows (200-3000ms): 3050279
+[2026-06-02 21:08:07] [INFO] Trimmed RT rows (200-3000ms): 3050279
+[2026-06-02 21:08:07] [INFO] Participants with valid age: 2475
+[2026-06-02 21:08:07] [INFO] Participants with valid age: 2475
+[2026-06-02 21:08:08] [STAGE] 5. Compute summary tables
+[2026-06-02 21:08:08] [STAGE] 5. Compute summary tables
+[2026-06-02 21:08:16] [STAGE] 5. Write summary tables
+[2026-06-02 21:08:16] [STAGE] 5. Write summary tables
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_overall.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_overall.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_overall.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_overall.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_age.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_age.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_age.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_age.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_rt_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_rt_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_rt_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_rt_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_accuracy_by_block.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_accuracy_by_block.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_accuracy_by_block.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_accuracy_by_block.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_accuracy_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_accuracy_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_accuracy_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_accuracy_by_type.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_within_person_accuracy_across_participants.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_within_person_accuracy_across_participants.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_within_person_accuracy_across_participants.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_within_person_accuracy_across_participants.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_accuracy_snapshot_descriptives.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV: output/summary/summary_accuracy_snapshot_descriptives.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_accuracy_snapshot_descriptives.csv
+[2026-06-02 21:08:16] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_accuracy_snapshot_descriptives.csv
+[2026-06-02 21:08:16] [INFO] Snapshot accuracy descriptives: n=2536 mean=0.9286 sd=0.0665 median=0.9440 min=0.0384 max=0.9944
+[2026-06-02 21:08:16] [INFO] Snapshot accuracy descriptives: n=2536 mean=0.9286 sd=0.0665 median=0.9440 min=0.0384 max=0.9944
+[2026-06-02 21:08:17] [INFO] Demographic summaries
+[2026-06-02 21:08:17] [INFO] Demographic summaries
+[2026-06-02 21:08:17] [INFO] Gender (Geschlecht)
+[2026-06-02 21:08:17] [INFO] Gender (Geschlecht)
+[2026-06-02 21:08:17] [INFO]  - divers : 27
+[2026-06-02 21:08:17] [INFO]  - divers : 27
+[2026-06-02 21:08:17] [INFO]  - keine Antwort : 9
+[2026-06-02 21:08:17] [INFO]  - keine Antwort : 9
+[2026-06-02 21:08:17] [INFO]  - männlich : 662
+[2026-06-02 21:08:17] [INFO]  - männlich : 662
+[2026-06-02 21:08:17] [INFO]  - weiblich : 1779
+[2026-06-02 21:08:17] [INFO]  - weiblich : 1779
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO] Education (Höchster Bildungsabschluss)
+[2026-06-02 21:08:17] [INFO] Education (Höchster Bildungsabschluss)
+[2026-06-02 21:08:17] [INFO]  - (Fach-)hochschulreife (z. B. Abitur, Fachabitur) : 1604
+[2026-06-02 21:08:17] [INFO]  - (Fach-)hochschulreife (z. B. Abitur, Fachabitur) : 1604
+[2026-06-02 21:08:17] [INFO]  - Berufsausbildung : 222
+[2026-06-02 21:08:17] [INFO]  - Berufsausbildung : 222
+[2026-06-02 21:08:17] [INFO]  - Hauptschulabschluss : 8
+[2026-06-02 21:08:17] [INFO]  - Hauptschulabschluss : 8
+[2026-06-02 21:08:17] [INFO]  - Hochschulabschluss (Bachelor, Master, Promotion) : 618
+[2026-06-02 21:08:17] [INFO]  - Hochschulabschluss (Bachelor, Master, Promotion) : 618
+[2026-06-02 21:08:17] [INFO]  - Mittlere Reife/Realschulabschluss : 24
+[2026-06-02 21:08:17] [INFO]  - Mittlere Reife/Realschulabschluss : 24
+[2026-06-02 21:08:17] [INFO]  - Ohne Schulabschluss : 1
+[2026-06-02 21:08:17] [INFO]  - Ohne Schulabschluss : 1
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO] Handedness (Händigkeit)
+[2026-06-02 21:08:17] [INFO] Handedness (Händigkeit)
+[2026-06-02 21:08:17] [INFO]  - Beidhänder:in : 61
+[2026-06-02 21:08:17] [INFO]  - Beidhänder:in : 61
+[2026-06-02 21:08:17] [INFO]  - Linkshänder:in : 232
+[2026-06-02 21:08:17] [INFO]  - Linkshänder:in : 232
+[2026-06-02 21:08:17] [INFO]  - Rechtshänder:in : 2184
+[2026-06-02 21:08:17] [INFO]  - Rechtshänder:in : 2184
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO] Native German (Haben Sie Deutsch als Muttersprache (vor dem 2. Lebensjahr) erworben?)
+[2026-06-02 21:08:17] [INFO] Native German (Haben Sie Deutsch als Muttersprache (vor dem 2. Lebensjahr) erworben?)
+[2026-06-02 21:08:17] [INFO]  - ja : 2477
+[2026-06-02 21:08:17] [INFO]  - ja : 2477
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO] Other language early (Haben Sie vor dem 2. Lebensjahr eine andere Sprache als Deutsch gelernt?)
+[2026-06-02 21:08:17] [INFO] Other language early (Haben Sie vor dem 2. Lebensjahr eine andere Sprache als Deutsch gelernt?)
+[2026-06-02 21:08:17] [INFO]  - ja : 338
+[2026-06-02 21:08:17] [INFO]  - ja : 338
+[2026-06-02 21:08:17] [INFO]  - nein : 2139
+[2026-06-02 21:08:17] [INFO]  - nein : 2139
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO] Multilingual (Sind Sie mehrsprachig (d.h., sprechen Sie mehr als eine Sprache)?)
+[2026-06-02 21:08:17] [INFO] Multilingual (Sind Sie mehrsprachig (d.h., sprechen Sie mehr als eine Sprache)?)
+[2026-06-02 21:08:17] [INFO]  - ja : 2254
+[2026-06-02 21:08:17] [INFO]  - ja : 2254
+[2026-06-02 21:08:17] [INFO]  - nein : 223
+[2026-06-02 21:08:17] [INFO]  - nein : 223
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO] Language variety (Welche ist Ihre vertrauteste Sprechweise?)
+[2026-06-02 21:08:17] [INFO] Language variety (Welche ist Ihre vertrauteste Sprechweise?)
+[2026-06-02 21:08:17] [INFO]  - dialekt : 173
+[2026-06-02 21:08:17] [INFO]  - dialekt : 173
+[2026-06-02 21:08:17] [INFO]  - hochdeutsch : 1591
+[2026-06-02 21:08:17] [INFO]  - hochdeutsch : 1591
+[2026-06-02 21:08:17] [INFO]  - regional : 713
+[2026-06-02 21:08:17] [INFO]  - regional : 713
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [INFO]  - NA : 2
+[2026-06-02 21:08:17] [STAGE] 6. Build and save plots
+[2026-06-02 21:08:17] [STAGE] 6. Build and save plots
+[2026-06-02 21:08:23] [INFO] Saved plot: output/plots/rt_boxplot_by_type.pdf
+[2026-06-02 21:08:23] [INFO] Saved plot: output/plots/rt_boxplot_by_type.pdf
+[2026-06-02 21:08:23] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_boxplot_by_type.pdf
+[2026-06-02 21:08:23] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_boxplot_by_type.pdf
+[2026-06-02 21:08:31] [INFO] Saved plot: output/plots/rt_violin_by_type.pdf
+[2026-06-02 21:08:31] [INFO] Saved plot: output/plots/rt_violin_by_type.pdf
+[2026-06-02 21:08:31] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_violin_by_type.pdf
+[2026-06-02 21:08:31] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_violin_by_type.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot: output/plots/accuracy_by_type.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot: output/plots/accuracy_by_type.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/accuracy_by_type.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/accuracy_by_type.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot: output/plots/accuracy_by_block.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot: output/plots/accuracy_by_block.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/accuracy_by_block.pdf
+[2026-06-02 21:08:32] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/accuracy_by_block.pdf
+[2026-06-02 21:08:33] [INFO] Saved plot: output/plots/rt_by_block.pdf
+[2026-06-02 21:08:33] [INFO] Saved plot: output/plots/rt_by_block.pdf
+[2026-06-02 21:08:33] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_by_block.pdf
+[2026-06-02 21:08:33] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_by_block.pdf
+[2026-06-02 21:08:34] [INFO] Saved plot: output/plots/participant_rt_accuracy_scatter.pdf
+[2026-06-02 21:08:34] [INFO] Saved plot: output/plots/participant_rt_accuracy_scatter.pdf
+[2026-06-02 21:08:34] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/participant_rt_accuracy_scatter.pdf
+[2026-06-02 21:08:34] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/participant_rt_accuracy_scatter.pdf
+[2026-06-02 21:08:37] [INFO] Saved plot: output/plots/rt_histogram.pdf
+[2026-06-02 21:08:37] [INFO] Saved plot: output/plots/rt_histogram.pdf
+[2026-06-02 21:08:37] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_histogram.pdf
+[2026-06-02 21:08:37] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/rt_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot: output/plots/accuracy_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot: output/plots/accuracy_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/accuracy_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/accuracy_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot: output/plots/age_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot: output/plots/age_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/age_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/age_histogram.pdf
+[2026-06-02 21:08:38] [INFO] Saved CSV: output/summary/summary_origin_group_counts.csv
+[2026-06-02 21:08:38] [INFO] Saved CSV: output/summary/summary_origin_group_counts.csv
+[2026-06-02 21:08:38] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_origin_group_counts.csv
+[2026-06-02 21:08:38] [INFO] Saved CSV mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary/summary_origin_group_counts.csv
+[2026-06-02 21:08:38] [INFO] Participants assigned to German origin map: 2264
+[2026-06-02 21:08:38] [INFO] Participants assigned to German origin map: 2264
+[2026-06-02 21:08:38] [INFO] Distinct 2-digit PLZ prefixes in sample: 95
+[2026-06-02 21:08:38] [INFO] Distinct 2-digit PLZ prefixes in sample: 95
+[2026-06-02 21:10:53] [INFO] Saved plot: output/plots/german_origin_plz_map.pdf
+[2026-06-02 21:10:53] [INFO] Saved plot: output/plots/german_origin_plz_map.pdf
+[2026-06-02 21:10:53] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/german_origin_plz_map.pdf
+[2026-06-02 21:10:53] [INFO] Saved plot mirror: C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots/german_origin_plz_map.pdf
+[2026-06-02 21:10:53] [STAGE] 7. Final report
+[2026-06-02 21:10:53] [STAGE] 7. Final report
+[2026-06-02 21:10:53] [INFO] Analysis complete.
+[2026-06-02 21:10:53] [INFO] Analysis complete.
+[2026-06-02 21:10:53] [INFO] Summary directory (local): output/summary
+[2026-06-02 21:10:53] [INFO] Summary directory (local): output/summary
+[2026-06-02 21:10:53] [INFO] Summary directory (mirror): C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary
+[2026-06-02 21:10:53] [INFO] Summary directory (mirror): C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/summary
+[2026-06-02 21:10:53] [INFO] Plot directory (local): output/plots
+[2026-06-02 21:10:53] [INFO] Plot directory (local): output/plots
+[2026-06-02 21:10:53] [INFO] Plot directory (mirror): C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots
+[2026-06-02 21:10:53] [INFO] Plot directory (mirror): C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/plots
+[2026-06-02 21:10:53] [INFO] Log file (local): output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:10:53] [INFO] Log file (local): output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:10:53] [INFO] Log file (mirror): C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/log/analysis_log_2026-06-02_21-05-04.log
+[2026-06-02 21:10:53] [INFO] Log file (mirror): C:/Users/alion/OneDrive/1.work/04_GermanLexiconProject/00_analysis/output/log/analysis_log_2026-06-02_21-05-04.log
