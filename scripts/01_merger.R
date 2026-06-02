@@ -19,11 +19,12 @@ script_start_time <- Sys.time()
 stage_start_time <- Sys.time()
 run_timestamp <- format(script_start_time, "%Y-%m-%d %H:%M:%S")
 run_timestamp_file <- format(script_start_time, "%Y-%m-%d_%H-%M-%S")
+time <- run_timestamp_file 
 
 local_log_dir <- file.path(getwd(), "output", "log")
 dir.create(local_log_dir, recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(getwd(), "output", "raw_data"),   recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(getwd(), "output", "clean_data"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(getwd(), "raw_data"),   recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(getwd(), "clean_data"), recursive = TRUE, showWarnings = FALSE)
 
 local_log_file <- file.path(local_log_dir,
                             paste0("merger_log_", run_timestamp_file, ".log"))
@@ -66,13 +67,27 @@ log_info("Output prefix:", file.path(getwd(), "output"))
 log_info("Local log file:", local_log_file)
 
 # Function to extract participant ID from filename
-extract_participant_id <- function(filename) {
+extract_composite_id <- function(filename) {
   base <- basename(filename)
-  match <- str_match(base, "_p(\\d+)_")
-  if (!is.na(match[1, 2])) {
-    return(match[1, 2])
-  }
+  pid  <- str_match(base, "_p(\\d+)_")[1, 2]
+  uni  <- str_match(base, "glp_(.+?)_p\\d+_")[1, 2]
+  if (!is.na(pid) && !is.na(uni))
+    return(paste0(uni, "_", pid))
   return(NA_character_)
+}
+
+# Extract uni_pid without date — used to match block files to demo participants
+extract_uni_pid <- function(filename) {
+  base <- basename(filename)
+  pid <- str_match(base, "_p(\\d+)_")[1, 2]
+  uni <- str_match(base, "glp_(.+?)_p\\d+_")[1, 2]
+  if (!is.na(pid) && !is.na(uni)) return(paste0(uni, "_", pid))
+  return(NA_character_)
+}
+
+# Extract date component from filename timestamp
+extract_file_date <- function(filename) {
+  str_extract(basename(filename), "\\d{4}-\\d{2}-\\d{2}")
 }
 
 # Function to extract block number from filename
@@ -100,24 +115,6 @@ strip_html <- function(text) {
   str_remove_all(text, "<[^>]+>")
 }
 
-# Function to safely parse JSON and extract specific keys
-safe_json_extract <- function(json_string, key) {
-  if (is.na(json_string) ||
-      is.null(json_string) || json_string == "") {
-    return(NA)
-  }
-  
-  tryCatch({
-    parsed <- fromJSON(json_string)
-    if (key %in% names(parsed)) {
-      return(parsed[[key]])
-    } else {
-      return(NA)
-    }
-  }, error = function(e) {
-    return(NA)
-  })
-}
 
 # Discover all CSV files in the current directory
 stage_start_time <- Sys.time()
@@ -140,17 +137,82 @@ block_files_all <- all_files[str_detect(all_files, "_block(\\d+)_")]
 demo_files_all <- all_files[str_detect(all_files, "block11demo_")]
 
 # Keep only parseable demo files and define the participant cohort from demos.
-demo_participant_ids <- map_chr(demo_files_all, extract_participant_id)
-valid_demo_idx <- !is.na(demo_participant_ids)
-demo_files <- demo_files_all[valid_demo_idx]
-demo_participant_ids <- demo_participant_ids[valid_demo_idx]
-demo_participants <- unique(demo_participant_ids)
+demo_raw_ids   <- map_chr(demo_files_all, extract_composite_id)
+valid_demo_idx <- !is.na(demo_raw_ids)
+demo_files_raw <- demo_files_all[valid_demo_idx]
+demo_raw_ids   <- demo_raw_ids[valid_demo_idx]
 
-# Keep only block files associated with participants who have a demo file.
-block_participant_ids <- map_chr(block_files_all, extract_participant_id)
-valid_block_idx <- !is.na(block_participant_ids) &
-  block_participant_ids %in% demo_participants
-block_files <- block_files_all[valid_block_idx]
+# When the same uni_pid appears in multiple demo files, the participant_id
+# column in the dataframe gets a _v1 / _v2 suffix (ordered by file date,
+# earliest first). No files are renamed on disk.
+# This handles genuine ID collisions (two different people at the same uni
+# who received the same numeric ID) and restarts (same person, two demo
+# files; the incomplete attempt is dropped at the missing-blocks step).
+# Participants with a single demo file keep the plain uni_pid as their ID.
+demo_id_tbl <- tibble(
+  file    = demo_files_raw,
+  uni_pid = demo_raw_ids
+) %>%
+  mutate(file_date = map_chr(file, extract_file_date)) %>%
+  group_by(uni_pid) %>%
+  arrange(file_date, .by_group = TRUE) %>%
+  mutate(
+    participant_id = if (n() > 1) paste0(uni_pid, "_v", row_number()) else uni_pid
+  ) %>%
+  ungroup()
+
+demo_files           <- demo_id_tbl$file
+demo_participant_ids <- demo_id_tbl$participant_id
+demo_participants    <- unique(demo_participant_ids)
+
+# Log and export duplicate uni_pid cases
+dup_demo_details <- demo_id_tbl %>%
+  group_by(uni_pid) %>%
+  filter(n() > 1) %>%
+  ungroup() %>%
+  mutate(timestamp = map_chr(file, extract_timestamp)) %>%
+  arrange(uni_pid, timestamp)
+
+log_info("uni_pid values with multiple demo files:", n_distinct(dup_demo_details$uni_pid))
+log_info("Affected uni_pids:", paste(unique(dup_demo_details$uni_pid), collapse = ", "))
+
+write_csv(dup_demo_details, file.path("output", "duplicate_demo_files.csv"))
+
+# Build demo lookup for date-proximity block matching.
+# The composite ID (uni_pid_date) is anchored to the DEMO file's date.
+# Block files are matched via uni_pid + closest date, so participants who
+# completed blocks on a different day than their demo file are not lost.
+demo_lookup <- tibble(
+  participant_id = demo_participant_ids,
+  file           = demo_files
+) %>%
+  mutate(
+    uni_pid   = map_chr(file, extract_uni_pid),
+    demo_date = map_chr(file, extract_file_date)
+  ) %>%
+  filter(!is.na(uni_pid))
+
+block_file_tbl <- tibble(file = block_files_all) %>%
+  mutate(
+    uni_pid   = map_chr(file, extract_uni_pid),
+    file_date = map_chr(file, extract_file_date)
+  ) %>%
+  filter(!is.na(uni_pid)) %>%
+  left_join(
+    demo_lookup %>% select(uni_pid, participant_id, demo_date),
+    by = "uni_pid",
+    relationship = "many-to-many"
+  ) %>%
+  filter(!is.na(participant_id)) %>%
+  mutate(date_diff = abs(as.integer(
+    as.Date(file_date) - as.Date(demo_date)
+  ))) %>%
+  group_by(file) %>%
+  slice_min(date_diff, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+block_files     <- block_file_tbl$file
+block_id_lookup <- setNames(block_file_tbl$participant_id, block_file_tbl$file)
 
 log_info("All block files discovered:", length(block_files_all))
 log_info("All demo files discovered:", length(demo_files_all))
@@ -159,13 +221,16 @@ log_info("Participants defined by demo files:",
          length(demo_participants))
 log_info("Block files linked to demo participants:", length(block_files))
 
-# Documentation helper: participants with block1 data but no demo file.
-block1_files_all <- block_files_all[str_detect(block_files_all, "_block1_")]
-block1_participant_ids <- map_chr(block1_files_all, extract_participant_id)
-block1_participants <- unique(block1_participant_ids[!is.na(block1_participant_ids)])
-block1_without_demo <- setdiff(block1_participants, demo_participants)
+# Documentation helper: block1 files with no matching demo participant.
+block1_without_demo_files <- block_files_all[
+  str_detect(block_files_all, "_block1_") &
+  !block_files_all %in% block_file_tbl$file
+]
+block1_without_demo_ids <- unique(na.omit(
+  map_chr(block1_without_demo_files, extract_uni_pid)
+))
 log_info("Participants with block1 file but no demo file:",
-         length(block1_without_demo))
+         length(block1_without_demo_ids))
 
 log_checkpoint("File discovery complete")
 
@@ -182,12 +247,8 @@ stage_start_time <- Sys.time()
 log_stage("Checking block completeness per participant")
 
 # Vectorized approach - much faster
-participant_block_summary <- block_files %>%
-  tibble(file = .) %>%
-  mutate(
-    participant_id = map_chr(file, extract_participant_id),
-    block_num = map_int(file, extract_block)
-  ) %>%
+participant_block_summary <- block_file_tbl %>%
+  mutate(block_num = map_int(file, extract_block)) %>%
   filter(!is.na(participant_id), !is.na(block_num)) %>%
   group_by(participant_id) %>%
   summarise(blocks_present = list(unique(block_num)), .groups = "drop") %>%
@@ -209,6 +270,7 @@ if (length(missing_participants) > 0) {
            paste(head(missing_participants, 10), collapse = ", "))
 }
 log_checkpoint("Block completeness check complete")
+
 
 # Exclude participants with demo but incomplete blocks from all downstream steps.
 if (missing_block_count > 0) {
@@ -232,11 +294,10 @@ log_info("Excluded at step 1 (missing blocks 1-10):",
          length(incomplete_participants))
 log_info("Retained after step 1:", length(complete_participants))
 
-block_file_participant_ids <- map_chr(block_files, extract_participant_id)
-demo_file_participant_ids <- map_chr(demo_files, extract_participant_id)
+demo_file_participant_ids <- map_chr(demo_files, extract_composite_id)
 
-# Keep all demo-cohort files at this stage so excluded trials can be exported later.
-block_files <- block_files[!is.na(block_file_participant_ids)]
+# block_files are already pre-matched via block_file_tbl; no further filtering needed.
+# Demo files: keep only those with a valid composite ID.
 demo_files <- demo_files[!is.na(demo_file_participant_ids)]
 log_info("Block files loaded before trial-level exclusions:",
          length(block_files))
@@ -259,7 +320,7 @@ pb_blocks <- txtProgressBar(min = 0,
 for (i in seq_along(block_files)) {
   file <- block_files[i]
   
-  participant_id <- extract_participant_id(file)
+  participant_id <- block_id_lookup[[file]]
   block_num      <- extract_block(file)
   timestamp      <- extract_timestamp(file)
   
@@ -465,7 +526,7 @@ if (length(low_trial_participants) > 0) {
   trials_data <- trials_data %>%
     filter(!participant_id %in% low_trial_participants)
   
-  demo_files <- demo_files[map_chr(demo_files, extract_participant_id) %in% unique(trials_data$participant_id)]
+  demo_files <- demo_files[map_chr(demo_files, extract_composite_id) %in% unique(trials_data$participant_id)]
 }
 
 log_info("Excluded at step 2 (<1250 total trials):",
@@ -501,7 +562,7 @@ pb_demo <- txtProgressBar(min = 0,
 for (i in seq_along(demo_files)) {
   file <- demo_files[i]
   
-  participant_id <- extract_participant_id(file)
+  participant_id <- extract_composite_id(file)
   
   if (is.na(participant_id)) {
     warning(paste("Skipping demo file due to parsing issues:", file))
@@ -926,12 +987,9 @@ log_checkpoint("Age exclusion complete")
 stage_start_time <- Sys.time()
 log_stage("Writing output file")
 output_path <- "output/"
-time <- gsub(pattern = " ", "_", Sys.time())
-time <- gsub(pattern = ":", "-", time)
-time <- gsub(pattern = "\\..*$", "", time)
 
-output_file_final_precleaned <- paste0("output/raw_data/", "final_data_precleaned_", time, ".csv")
-output_file_anonymized       <- paste0("output/clean_data/", "anonymized_final_data_precleaned_", time, ".csv")
+output_file_final_precleaned <- paste0("raw_data/", "final_data_precleaned_", time, ".csv")
+output_file_anonymized       <- paste0("clean_data/", "anonymized_final_data_precleaned_", time, ".csv")
 
 output_file_snapshot_step3 <- paste0(output_path, "snapshot_after_step3_", time, ".csv")
 exclusions_file_all <- paste0(output_path, "exclusions_all_data_cleaned_", time, ".csv")
@@ -1143,104 +1201,6 @@ table(table(final_data$word))
 table(table(final_data$participant_in_list))
 
 # ------------------------------------------------------------------
-# Diagnose duplicated global IDs and overused lists
-# ------------------------------------------------------------------
-
-log_stage("Diagnosing duplicated IDs and overused lists")
-
-# Ensure numeric
-final_data <- final_data %>%
-  mutate(list                = as.integer(list),
-         participant_in_list = as.integer(participant_in_list))
-
-# Map list config to each row - VECTORIZED for performance
-final_data_mapped <- final_data %>%
-  bind_cols(map_list_to_config(.$list, list_config)) %>%
-  select(-config_row)  # Don't need this column
-
-# Recompute global IDs
-final_data_mapped <- final_data_mapped %>%
-  mutate(global_id = id_offset +
-           (list - list_base) * participants_per_list +
-           participant_in_list)
-
-# 1. Find duplicated global IDs
-dup_ids <- final_data_mapped %>%
-  distinct(participant_id, global_id) %>%
-  count(global_id) %>%
-  filter(n > 1) %>%
-  arrange(desc(n))
-
-log_info("Number of duplicated global IDs:", nrow(dup_ids))
-if (nrow(dup_ids) > 0) {
-  log_info("Top duplicated IDs:", paste(head(dup_ids$global_id, 20), collapse = ", "))
-}
-
-# Which participants share those IDs
-dup_id_details <- final_data_mapped %>%
-  filter(global_id %in% dup_ids$global_id) %>%
-  distinct(participant_id, global_id, list, participant_in_list) %>%
-  arrange(global_id)
-
-# 2. Check list overuse
-actual_per_list <- final_data_mapped %>%
-  distinct(participant_id, list) %>%
-  count(list, name = "actual_n")
-
-expected_per_list <- tibble(list = 1:70) %>%
-  rowwise() %>%
-  mutate(
-    config_row = which(list >= list_config$list_start &
-                         list <= list_config$list_end),
-    expected_n = list_config$participants_per_list[config_row]
-  ) %>%
-  ungroup()
-
-list_check <- actual_per_list %>%
-  left_join(expected_per_list, by = "list") %>%
-  mutate(diff = actual_n - expected_n)
-
-overused_lists <- list_check %>%
-  filter(diff > 0) %>%
-  arrange(desc(diff))
-
-log_info("Number of overused lists:", nrow(overused_lists))
-if (nrow(overused_lists) > 0) {
-  log_info("Overused lists (list: excess participants):",
-           paste(
-             paste0(overused_lists$list, ":", overused_lists$diff),
-             collapse = ", "
-           ))
-}
-
-# 3. Check duplicated participant slots within list
-dup_slots <- final_data_mapped %>%
-  distinct(participant_id, list, participant_in_list) %>%
-  count(list, participant_in_list) %>%
-  filter(n > 1) %>%
-  arrange(desc(n))
-
-log_info("Duplicated participant slots within lists:", nrow(dup_slots))
-if (nrow(dup_slots) > 0) {
-  log_info(
-    "Example duplicated slots (list-participant_in_list):",
-    paste(
-      paste0(dup_slots$list[1:10], "-", dup_slots$participant_in_list[1:10]),
-      collapse = ", "
-    )
-  )
-}
-
-# Write diagnostic files
-write_csv(dup_ids, file.path("output", "duplicate_global_ids.csv"))
-write_csv(dup_id_details,
-          file.path("output", "duplicate_global_id_details.csv"))
-write_csv(overused_lists, file.path("output", "overused_lists.csv"))
-write_csv(dup_slots, file.path("output", "duplicate_slots.csv"))
-
-log_info("Diagnostic files written to output/")
-
-# ------------------------------------------------------------------
 # Refill ID mapping
 # ------------------------------------------------------------------
 
@@ -1307,16 +1267,97 @@ if (nrow(ids_to_refill) == 0) {
 }
 
 # Write refill ID list
-time <- gsub(" ", "_", Sys.time())
-time <- gsub(":", "-", time)
-time <- gsub("\\..*$", "", time)
-
 output_file <- file.path("output", paste0("ids_to_refill_", time, ".txt"))
 
 writeLines(as.character(sort(ids_to_refill$global_id)), output_file)
 
 log_info("Refill ID list written to:", output_file)
 
+
+# ------------------------------------------------------------------
+# Diagnose duplicated global IDs and overused lists
+# ------------------------------------------------------------------
+
+log_stage("Diagnosing duplicated IDs and overused lists")
+
+# Ensure numeric
+final_data <- final_data %>%
+  mutate(list                = as.integer(list),
+         participant_in_list = as.integer(participant_in_list))
+
+# Map list config to each row - VECTORIZED for performance
+final_data_mapped <- final_data %>%
+  bind_cols(map_list_to_config(.$list, list_config)) %>%
+  select(-config_row)
+
+# Recompute global IDs
+final_data_mapped <- final_data_mapped %>%
+  mutate(global_id = id_offset +
+           (list - list_base) * participants_per_list +
+           participant_in_list)
+
+# 1. Find duplicated global IDs
+dup_ids <- final_data_mapped %>%
+  distinct(participant_id, global_id) %>%
+  count(global_id) %>%
+  filter(n > 1) %>%
+  arrange(desc(n))
+
+log_info("Number of duplicated global IDs:", nrow(dup_ids))
+if (nrow(dup_ids) > 0) {
+  log_info("Top duplicated IDs:", paste(head(dup_ids$global_id, 20), collapse = ", "))
+}
+
+# Which participants share those IDs
+dup_id_details <- final_data_mapped %>%
+  filter(global_id %in% dup_ids$global_id) %>%
+  distinct(participant_id, global_id, list, participant_in_list) %>%
+  arrange(global_id)
+
+# 2. Check list overuse
+actual_per_list_diag <- final_data_mapped %>%
+  distinct(participant_id, list) %>%
+  count(list, name = "actual_n")
+
+expected_per_list_diag <- tibble(list = 1:70) %>%
+  rowwise() %>%
+  mutate(
+    config_row = which(list >= list_config$list_start &
+                         list <= list_config$list_end),
+    expected_n = list_config$participants_per_list[config_row]
+  ) %>%
+  ungroup()
+
+list_check <- actual_per_list_diag %>%
+  left_join(expected_per_list_diag, by = "list") %>%
+  mutate(diff = actual_n - expected_n)
+
+overused_lists <- list_check %>%
+  filter(diff > 0) %>%
+  arrange(desc(diff))
+
+log_info("Number of overused lists:", nrow(overused_lists))
+if (nrow(overused_lists) > 0) {
+  log_info("Overused lists (list: excess participants):",
+           paste(paste0(overused_lists$list, ":", overused_lists$diff), collapse = ", "))
+}
+
+# 3. Check duplicated participant slots within list
+dup_slots <- final_data_mapped %>%
+  distinct(participant_id, list, participant_in_list) %>%
+  count(list, participant_in_list) %>%
+  filter(n > 1) %>%
+  arrange(desc(n))
+
+log_info("Duplicated participant slots within lists:", nrow(dup_slots))
+
+# Write diagnostic files
+write_csv(dup_ids,        file.path("output", "duplicate_global_ids.csv"))
+write_csv(dup_id_details, file.path("output", "duplicate_global_id_details.csv"))
+write_csv(overused_lists, file.path("output", "overused_lists.csv"))
+write_csv(dup_slots,      file.path("output", "duplicate_slots.csv"))
+
+log_info("Diagnostic files written to output/")
 
 # ------------------------------------------------------------------
 # SIMPLE PARTICIPANT COUNT PER LIST (EXPECTED vs ACTUAL + DEVIATIONS)
@@ -1494,3 +1535,4 @@ if (nrow(detailed_additional) > 0) {
 }
 
 log_info("Script finished successfully")
+
