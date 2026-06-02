@@ -49,26 +49,25 @@ latest_file <- input_files[which.max(file.info(input_files)$mtime)]
 df <- read_csv(latest_file, show_col_types = FALSE)
 
 
-
-# 
+#
 colnames(df)
 table(df$word)
 table(df$type)
 table(df$accuracy)
 
 # get the word with the highest accuracy
-df$accuracy<-ifelse(df$accuracy=="correct", 1, 0)
-df_sort<-df %>%
-  filter(type=="word") %>%
+df$accuracy <- ifelse(df$accuracy == "correct", 1, 0)
+df_sort <- df %>%
+  filter(type == "word") %>%
   group_by(word) %>%
   summarise(m_accuracy = mean(accuracy, na.rm = TRUE)) %>%
-  arrange(desc(m_accuracy)) 
+  arrange(desc(m_accuracy))
 
-df_sort_pw<-df %>%
-  filter(type=="pseudoword") %>%
+df_sort_pw <- df %>%
+  filter(type == "pseudoword") %>%
   group_by(word) %>%
   summarise(m_accuracy = mean(accuracy, na.rm = TRUE)) %>%
-  arrange(desc(m_accuracy)) 
+  arrange(desc(m_accuracy))
 
 
 participant_demo <- df %>% distinct(participant_id, .keep_all = TRUE)
@@ -80,21 +79,25 @@ table(participant_demo$origin_region)
 participant_demo <- participant_demo %>%
   mutate(
     origin_region_clean = str_to_lower(origin_region),
-    
     origin_group = case_when(
-      
       # Germany (D)
-      str_detect(origin_region_clean, 
-                 "deutsch|german|\\bde\\b|\\bd\\b|brd|ddr|bundesrep|ostdeutsch") ~ "D",
-      
+      str_detect(
+        origin_region_clean,
+        "deutsch|german|\\bde\\b|\\bd\\b|brd|ddr|bundesrep|ostdeutsch"
+      ) ~ "D",
+
       # Austria (A)
-      str_detect(origin_region_clean, 
-                 "österreich|austria") ~ "A",
-      
+      str_detect(
+        origin_region_clean,
+        "österreich|austria"
+      ) ~ "A",
+
       # Switzerland (CH)
-      str_detect(origin_region_clean, 
-                 "schweiz") ~ "CH",
-      
+      str_detect(
+        origin_region_clean,
+        "schweiz"
+      ) ~ "CH",
+
       # Everything else
       TRUE ~ "other"
     )
@@ -145,7 +148,7 @@ map_data <- populationData %>%
     PLZ_2digit = str_sub(plz, 1, 2)
   ) %>%
   left_join(plz2_counts, by = "PLZ_2digit") %>%
-  mutate(n = replace_na(n, 0)) %>%          # prefixes not in your sample -> 0
+  mutate(n = replace_na(n, 0)) %>% # prefixes not in your sample -> 0
   select(plz, n)
 
 # 4) Plot choropleth by (prefix-count assigned to each 5-digit PLZ)
@@ -153,9 +156,3 @@ dePlzMap(
   data = map_data,
   legendTitle = "n (participants)"
 )
-
-
-
-
-
-

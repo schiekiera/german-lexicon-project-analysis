@@ -108,13 +108,13 @@
         \begin{column}{0.55\textwidth}
             \begin{block}{Stimuli}
                 \begin{itemize}
-                    \item \textbf{60,000} total items
+                    \item \textbf{77,500} total items
                     \begin{itemize}
-                        \item 30,000 words
-                        \item 30,000 nonwords
+                        \item 38,750 words
+                        \item 38,750 nonwords
                     \end{itemize}
-                    \item \textbf{30 repetitions} per item
-                    \item Resulting in \textbf{1.8\,M trials} total
+                    \item At least \textbf{35 repetitions} per item
+                    \item Resulting in \textbf{2,712,500} trials total
                 \end{itemize}
             \end{block}
             \begin{block}{Participants}
@@ -151,7 +151,7 @@
     \frametitle{Overall Progress: Data Collection Complete}
     \begin{center}
         \includegraphics[width=0.75\textwidth]{plots/data_collection/overall_progress.png}
-        \captionof{figure}{Cumulative data collection from December 2025 onward. Data collection is now \textbf{complete}: as of June 1, 2026, \emph{n} = \textbf{2,825} datasets were collected.
+        \captionof{figure}{Cumulative data collection from December 2025 onward. Data collection is now \textbf{complete}: as of June 1, 2026, \emph{n} = \textbf{2,830} datasets were collected.
         }
 
 \end{center}
@@ -183,12 +183,12 @@
             excl/.style={draw=accentColor, rounded corners, thick, fill=bgColor, align=center, text width=4.2cm, inner sep=3pt, font=\small},
             final/.style={draw=fuBlue, rounded corners, very thick, fill=fuBlue!8, align=center, text width=6.6cm, inner sep=3pt, font=\small}
         ]
-            \node[main] (s1) {Initial cohort (demo-defined): \emph{n} = 2,825};
-            \node[main, below=of s1] (s2) {Retained after step 1: \emph{n} = 2,791};
-            \node[main, below=of s2] (s3) {Retained after step 2: \emph{n} = 2,790};
-            \node[main, below=of s3] (s4) {Retained after step 3: \emph{n} = 2,531};
-            \node[main, below=of s4] (s5) {Retained after step 4: \emph{n} = 2,477};
-            \node[final, below=of s5] (s6) {Cleaned dataset (step 5): \emph{n} = 2,474};
+            \node[main] (s1) {Initial cohort (demo-defined): \emph{n} = 2,830};
+            \node[main, below=of s1] (s2) {Retained after step 1: \emph{n} = 2,796};
+            \node[main, below=of s2] (s3) {Retained after step 2: \emph{n} = 2,795};
+            \node[main, below=of s3] (s4) {Retained after step 3: \emph{n} = 2,536};
+            \node[main, below=of s4] (s5) {Retained after step 4: \emph{n} = 2,482};
+            \node[final, below=of s5] (s6) {Cleaned dataset (step 5): \emph{n} = 2,479};
 
             \node[excl, right=of s1] (e1) {Missing blocks 1--10: \emph{n} = 34};
             \node[excl, right=of s2] (e2) {$<$1,250 total trials: \emph{n} = 1};
@@ -219,10 +219,10 @@
         \begin{column}{0.4\textwidth}
             \begin{block}{Final Counts (Jun 1, 2026)}
                 \begin{itemize}
-                    \item Datasets collected: \textbf{2,825}
-                    \item Retained after cleaning: \textbf{2,474}
+                    \item Datasets collected: \textbf{2,830}
+                    \item Retained after cleaning: \textbf{2,479}
                     \item Exclusion rate: \textbf{12.4\%}
-                    \item Cleaned trials: \textbf{3,097,500}
+                    \item Cleaned trials: \textbf{3,098,750}
                 \end{itemize}
             \end{block}
         \end{column}
@@ -233,7 +233,7 @@
                     Metric & Value \\
                     \midrule
                     Original target (valid) & 1,440 \\
-                    Final retained          & 2,474 \\
+                    Final retained          & 2,479 \\
                     Stimulus-list coverage  & complete \\
                     \bottomrule
                 \end{tabular}
@@ -266,8 +266,8 @@
                     \toprule
                     & $n$ & \% \\
                     \midrule
-                    Female    & 1,776 & 71.8 \\
-                    Male      & 662   & 26.8 \\
+                    Female    & 1,779 & 71.8 \\
+                    Male      & 662   & 26.7 \\
                     Diverse   & 27    & 1.1 \\
                     No answer & 9     & 0.4 \\
                     \bottomrule
@@ -278,9 +278,9 @@
                     \toprule
                     & $n$ & \% \\
                     \midrule
-                    Abitur/Fachabitur & 1,603 & 64.8 \\
-                    University degree & 617   & 24.9 \\
-                    Vocational        & 221   & 8.9 \\
+                    Abitur/Fachabitur & 1,604 & 64.7 \\
+                    University degree & 618   & 24.9 \\
+                    Vocational        & 222   & 9.0 \\
                     Other             & 33    & 1.3 \\
                     \bottomrule
                 \end{tabular}
@@ -292,14 +292,14 @@
             \begin{block}{Age}
                 \begin{center}
                 \includegraphics[width=0.75\textwidth]{plots/age_histogram.pdf}
-                \captionof{figure}{Distribution of age from \emph{n} = 2,472 participants. $M (SD) = 26.7 (9.37)$, $Mdn = 23$.}
+                \captionof{figure}{Distribution of age from \emph{n} = 2,475 participants. $M (SD) = 26.7 (9.37)$, $Mdn = 23$.}
                 \end{center}
             \end{block}
             \vspace{-0.5cm}
             \begin{block}{Language Background}
                 \begin{itemize}
-                    \item Early multilingual: 336 (13.6\%)
-                    \item Currently multilingual: 2,251 (91.0\%)
+                    \item Early multilingual: 338 (13.6\%)
+                    \item Currently multilingual: 2,254 (90.9\%)
                 \end{itemize}
             \end{block}
 
@@ -320,10 +320,10 @@
                     \toprule
                     Country & $n$  &\% \\
                     \midrule
-                      Germany      &      2,262    & 91.4 \\
+                      Germany      &      2,264    & 91.3 \\
                       Austria            & 99    & 4.0 \\
                       Switzerland        & 76    & 3.1 \\
-                      Other              & 37    & 1.5 \\
+                      Other              & 40    & 1.6 \\
                     \bottomrule
                 \end{tabular}
             \end{block}
@@ -333,7 +333,7 @@
     
                 \begin{center}
                 \includegraphics[width=\textwidth]{plots/german_origin_plz_map.pdf}
-                \captionof{figure}{Distribution of postal codes from \emph{n} = 2,262 participants in Germany.}
+                \captionof{figure}{Distribution of postal codes from \emph{n} = 2,264 participants in Germany.}
                 \end{center}
 
 
@@ -373,7 +373,7 @@
         \begin{column}{0.60\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{plots/accuracy_histogram.pdf}
-                \captionof{figure}{Distribution of mean accuracy from \emph{n} = 2,531 participants before accuracy exclusion. Black solid line = mean, red solid line = exclusion threshold (75\%).}
+                \captionof{figure}{Distribution of mean accuracy from \emph{n} = 2,536 participants before accuracy exclusion. Black solid line = mean, red solid line = exclusion threshold (75\%).}
             \end{center}
         \end{column}
     \end{columns}
@@ -409,7 +409,7 @@
         \begin{column}{0.6\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{plots/rt_histogram.pdf}
-                \captionof{figure}{Distribution of trimmed reaction times from \emph{n} = 2,474 participants. Solid line = mean, dashed line = median.}
+                \captionof{figure}{Distribution of trimmed reaction times from \emph{n} = 2,479 participants. Solid line = mean, dashed line = median.}
             \end{center}
         \end{column}
     \end{columns}
@@ -431,7 +431,7 @@
             {\scriptsize (B)}
         \end{minipage}
 
-        \caption{Performance across blocks from \emph{n} = 2,474 participants. (A) Mean accuracy per block across participants. (B) Mean reaction time per block across participants.}
+        \caption{Performance across blocks from \emph{n} = 2,479 participants. (A) Mean accuracy per block across participants. (B) Mean reaction time per block across participants.}
     \end{figure}
 \end{frame}
 
@@ -459,7 +459,7 @@
         \begin{column}{0.60\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{plots/reliability_methods_comparison.pdf}
-                \captionof{figure}{Item-level reliability by approach (log RT, correct trials; \emph{n} = 2,474), grouped by stimulus set. Dashed line: 0.80; \emph{y}-axis from 0.70.}
+                \captionof{figure}{Item-level reliability by approach (log RT, correct trials; \emph{n} = 2,479), grouped by stimulus set. Dashed line: 0.80; \emph{y}-axis from 0.70.}
             \end{center}
         \end{column}
     \end{columns}
@@ -474,8 +474,8 @@
     \frametitle{Summary \& Outlook}
     \begin{block}{Final Dataset}
         \begin{itemize}
-            \item \textbf{2,474} participants retained after cleaning (target: 1,440 -- exceeded)
-            \item \textbf{3,097,500} cleaned trials; 12.4\% participant exclusion rate
+            \item \textbf{2,479} participants retained after cleaning (target: 1,440 -- exceeded)
+            \item \textbf{3,098,750} cleaned trials; 12.4\% participant exclusion rate
             \item Reproducible preprocessing pipeline (five exclusion steps)
         \end{itemize}
     \end{block}
@@ -483,7 +483,7 @@
     \begin{block}{Outlook}
         \begin{itemize}
             \item Data collection \textbf{complete}; recruitment closed
-            \item Reliability analyses in progress (Spearman--Brown)
+            \item Item-level reliability established (ICC3k $\approx$ 0.93; ICC2k $\approx$ 0.89)
             \item Prepare dataset documentation and public release
             \item Monitoring dashboard: \url{https://github.com/schiekiera/German_Lexicon_Multilab_Monitoring}
         \end{itemize}
