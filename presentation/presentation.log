@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.30)  2 JUN 2026 23:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.30)  3 JUN 2026 08:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1240,97 +1240,107 @@ Package pdftex.def Info: ../output/plots/data_collection/new_datasets_per_day.pn
 [6
 
 ]
-<../output/plots/age_histogram.pdf, id=62, 650.43pt x 433.62pt>
-File: ../output/plots/age_histogram.pdf Graphic file (type pdf)
-<use ../output/plots/age_histogram.pdf>
-Package pdftex.def Info: ../output/plots/age_histogram.pdf  used on input line 308.
-(pdftex.def)             Requested size: 143.4006pt x 95.59518pt.
-
-Overfull \vbox (12.38254pt too high) detected at line 308
- []
-
+<../output/plots/word_repetitions.pdf, id=62, 650.43pt x 433.62pt>
+File: ../output/plots/word_repetitions.pdf Graphic file (type pdf)
+<use ../output/plots/word_repetitions.pdf>
+Package pdftex.def Info: ../output/plots/word_repetitions.pdf  used on input line 285.
+(pdftex.def)             Requested size: 239.00558pt x 159.33855pt.
 
 
 [7
 
- <../output/plots/age_histogram.pdf>]
-<../output/plots/german_origin_plz_map.pdf, id=78, 650.43pt x 505.89pt>
-File: ../output/plots/german_origin_plz_map.pdf Graphic file (type pdf)
-<use ../output/plots/german_origin_plz_map.pdf>
-Package pdftex.def Info: ../output/plots/german_origin_plz_map.pdf  used on input line 342.
-(pdftex.def)             Requested size: 239.00558pt x 185.89496pt.
+ <../output/plots/word_repetitions.pdf>]
+<../output/plots/age_histogram.pdf, id=76, 650.43pt x 433.62pt>
+File: ../output/plots/age_histogram.pdf Graphic file (type pdf)
+<use ../output/plots/age_histogram.pdf>
+Package pdftex.def Info: ../output/plots/age_histogram.pdf  used on input line 343.
+(pdftex.def)             Requested size: 143.4006pt x 95.59518pt.
 
-Overfull \vbox (19.10878pt too high) detected at line 342
+Overfull \vbox (12.38254pt too high) detected at line 343
  []
 
 
 
 [8
 
- <../output/plots/german_origin_plz_map.pdf>]
-Overfull \hbox (22.02519pt too wide) in paragraph at lines 380--380
- [][]  
- []
+ <../output/plots/age_histogram.pdf>]
+<../output/plots/german_origin_plz_map.pdf, id=90, 650.43pt x 505.89pt>
+File: ../output/plots/german_origin_plz_map.pdf Graphic file (type pdf)
+<use ../output/plots/german_origin_plz_map.pdf>
+Package pdftex.def Info: ../output/plots/german_origin_plz_map.pdf  used on input line 377.
+(pdftex.def)             Requested size: 239.00558pt x 185.89496pt.
 
-<../output/plots/accuracy_histogram.pdf, id=94, 650.43pt x 433.62pt>
-File: ../output/plots/accuracy_histogram.pdf Graphic file (type pdf)
-<use ../output/plots/accuracy_histogram.pdf>
-Package pdftex.def Info: ../output/plots/accuracy_histogram.pdf  used on input line 380.
-(pdftex.def)             Requested size: 239.00558pt x 159.33855pt.
-
-Overfull \vbox (5.2023pt too high) detected at line 380
+Overfull \vbox (19.10878pt too high) detected at line 377
  []
 
 
 
 [9
 
- <../output/plots/accuracy_histogram.pdf>]
-Overfull \hbox (11.34886pt too wide) in paragraph at lines 416--416
+ <../output/plots/german_origin_plz_map.pdf>]
+Overfull \hbox (22.02519pt too wide) in paragraph at lines 415--415
  [][]  
  []
 
-<../output/plots/rt_histogram.pdf, id=108, 650.43pt x 433.62pt>
-File: ../output/plots/rt_histogram.pdf Graphic file (type pdf)
-<use ../output/plots/rt_histogram.pdf>
-Package pdftex.def Info: ../output/plots/rt_histogram.pdf  used on input line 416.
+<../output/plots/accuracy_histogram.pdf, id=106, 650.43pt x 433.62pt>
+File: ../output/plots/accuracy_histogram.pdf Graphic file (type pdf)
+<use ../output/plots/accuracy_histogram.pdf>
+Package pdftex.def Info: ../output/plots/accuracy_histogram.pdf  used on input line 415.
 (pdftex.def)             Requested size: 239.00558pt x 159.33855pt.
+
+Overfull \vbox (5.2023pt too high) detected at line 415
+ []
+
 
 
 [10
 
- <../output/plots/rt_histogram.pdf>]
-<../output/plots/accuracy_by_block.pdf, id=122, 650.43pt x 433.62pt>
-File: ../output/plots/accuracy_by_block.pdf Graphic file (type pdf)
-<use ../output/plots/accuracy_by_block.pdf>
-Package pdftex.def Info: ../output/plots/accuracy_by_block.pdf  used on input line 436.
-(pdftex.def)             Requested size: 191.20082pt x 127.46686pt.
-<../output/plots/rt_by_block.pdf, id=123, 650.43pt x 433.62pt>
-File: ../output/plots/rt_by_block.pdf Graphic file (type pdf)
-<use ../output/plots/rt_by_block.pdf>
-Package pdftex.def Info: ../output/plots/rt_by_block.pdf  used on input line 436.
-(pdftex.def)             Requested size: 191.20082pt x 127.46686pt.
+ <../output/plots/accuracy_histogram.pdf>]
+Overfull \hbox (11.34886pt too wide) in paragraph at lines 451--451
+ [][]  
+ []
+
+<../output/plots/rt_histogram.pdf, id=120, 650.43pt x 433.62pt>
+File: ../output/plots/rt_histogram.pdf Graphic file (type pdf)
+<use ../output/plots/rt_histogram.pdf>
+Package pdftex.def Info: ../output/plots/rt_histogram.pdf  used on input line 451.
+(pdftex.def)             Requested size: 239.00558pt x 159.33855pt.
 
 
 [11
 
- <../output/plots/accuracy_by_block.pdf> <../output/plots/rt_by_block.pdf>]
-<../output/plots/reliability_methods_comparison.pdf, id=139, 686.565pt x 361.35pt>
-File: ../output/plots/reliability_methods_comparison.pdf Graphic file (type pdf)
-<use ../output/plots/reliability_methods_comparison.pdf>
-Package pdftex.def Info: ../output/plots/reliability_methods_comparison.pdf  used on input line 466.
-(pdftex.def)             Requested size: 239.00558pt x 125.79068pt.
+ <../output/plots/rt_histogram.pdf>]
+<../output/plots/accuracy_by_block.pdf, id=134, 650.43pt x 433.62pt>
+File: ../output/plots/accuracy_by_block.pdf Graphic file (type pdf)
+<use ../output/plots/accuracy_by_block.pdf>
+Package pdftex.def Info: ../output/plots/accuracy_by_block.pdf  used on input line 471.
+(pdftex.def)             Requested size: 191.20082pt x 127.46686pt.
+<../output/plots/rt_by_block.pdf, id=135, 650.43pt x 433.62pt>
+File: ../output/plots/rt_by_block.pdf Graphic file (type pdf)
+<use ../output/plots/rt_by_block.pdf>
+Package pdftex.def Info: ../output/plots/rt_by_block.pdf  used on input line 471.
+(pdftex.def)             Requested size: 191.20082pt x 127.46686pt.
 
 
 [12
 
- <../output/plots/reliability_methods_comparison.pdf>]
+ <../output/plots/accuracy_by_block.pdf> <../output/plots/rt_by_block.pdf>]
+<../output/plots/reliability_methods_comparison.pdf, id=151, 686.565pt x 361.35pt>
+File: ../output/plots/reliability_methods_comparison.pdf Graphic file (type pdf)
+<use ../output/plots/reliability_methods_comparison.pdf>
+Package pdftex.def Info: ../output/plots/reliability_methods_comparison.pdf  used on input line 501.
+(pdftex.def)             Requested size: 239.00558pt x 125.79068pt.
+
 
 [13
 
-]
+ <../output/plots/reliability_methods_comparison.pdf>]
 
 [14
+
+]
+
+[15
 
 ]
 \tf@nav=\write7
@@ -1354,18 +1364,18 @@ Package logreq Info: Writing requests to 'presentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47973 strings out of 469658
- 1127938 string characters out of 5473869
+ 47986 strings out of 469658
+ 1128361 string characters out of 5473869
  2051549 words of memory out of 5000000
- 75612 multiletter control sequences out of 15000+600000
+ 75623 multiletter control sequences out of 15000+600000
  639646 words of font info for 84 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  101i,15n,107p,1879b,1750s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/louis/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on presentation.pdf (14 pages, 22018640 bytes).
+Output written on presentation.pdf (15 pages, 22024207 bytes).
 PDF statistics:
- 240 PDF objects out of 1000 (max. 8388607)
- 166 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 96 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 252 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
+ 32 named destinations out of 1000 (max. 500000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

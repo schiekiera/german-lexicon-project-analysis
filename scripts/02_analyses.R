@@ -308,6 +308,18 @@ snapshot_accuracy_descriptives <- participant_summary_snapshot %>%
   )
 
 
+# 5.3.3 Word repetition frequency (observations per item)
+word_reps <- as.integer(table(df$word))
+word_repetition_summary <- tibble::tibble(
+  n_items     = length(word_reps),
+  n_trials    = sum(word_reps),
+  mean_reps   = mean(word_reps),
+  median_reps = median(word_reps),
+  sd_reps     = sd(word_reps),
+  min_reps    = min(word_reps),
+  max_reps    = max(word_reps)
+)
+
 # 5.4 Write summaries to both summary directories
 log_stage("5. Write summary tables")
 write_csv_both(overall_summary, "summary_overall.csv")
@@ -317,6 +329,18 @@ write_csv_both(accuracy_by_block, "summary_accuracy_by_block.csv")
 write_csv_both(accuracy_by_type_snapshot, "summary_accuracy_by_type.csv")
 write_csv_both(within_person_accuracy_across_participants, "summary_within_person_accuracy_across_participants.csv")
 write_csv_both(snapshot_accuracy_descriptives, "summary_accuracy_snapshot_descriptives.csv")
+write_csv_both(word_repetition_summary, "summary_word_repetitions.csv")
+log_info(
+  "Word repetitions per item:",
+  paste(
+    sprintf("n_items=%s", word_repetition_summary$n_items),
+    sprintf("mean=%.2f", word_repetition_summary$mean_reps),
+    sprintf("median=%s", word_repetition_summary$median_reps),
+    sprintf("sd=%.2f", word_repetition_summary$sd_reps),
+    sprintf("range=%s-%s", word_repetition_summary$min_reps, word_repetition_summary$max_reps),
+    collapse = ", "
+  )
+)
 log_info(
   "Snapshot accuracy descriptives:",
   paste(
@@ -490,7 +514,20 @@ p_age_hist <- ggplot(participant_demo %>% filter(!is.na(age_clean)), aes(x = age
   theme_minimal(base_size = 13)
 save_plot_both(p_age_hist, "age_histogram.pdf")
 
-# 6.10 German PLZ map (participant origins, 2-digit prefixes)
+# 6.10 Word repetition frequency (observations per item)
+word_rep_dist <- as.data.frame(table(word_reps), stringsAsFactors = FALSE)
+names(word_rep_dist) <- c("frequency", "count")
+word_rep_dist$frequency <- as.numeric(word_rep_dist$frequency)
+word_rep_dist$count <- as.numeric(word_rep_dist$count)
+
+p_word_rep <- ggplot(word_rep_dist, aes(x = frequency, y = count)) +
+  geom_col(fill = "steelblue") +
+  labs(x = "Repetition Frequency", y = "Number of words") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0))
+save_plot_both(p_word_rep, "word_repetitions.pdf")
+
+# 6.11 German PLZ map (participant origins, 2-digit prefixes)
 participant_geo_base <- participant_demo %>%
   mutate(
     origin_region_clean = str_to_lower(as.character(origin_region)),
