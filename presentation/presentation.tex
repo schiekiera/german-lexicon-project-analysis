@@ -148,17 +148,6 @@
 
 
 \begin{frame}
-    \frametitle{Overall Progress: Data Collection Complete}
-    \begin{center}
-        \includegraphics[width=0.75\textwidth]{plots/data_collection/overall_progress.png}
-        \captionof{figure}{Cumulative data collection from December 2025 onward. Data collection is now \textbf{complete}: as of June 1, 2026, \emph{n} = \textbf{2,830} datasets were collected.
-        }
-
-\end{center}
-
-\end{frame}
-
-\begin{frame}
     \frametitle{New Datasets per Day}
     \begin{center}
         \includegraphics[width=0.75\textwidth]{plots/data_collection/new_datasets_per_day.png}
@@ -415,7 +404,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Reaction Times}
+    \frametitle{Reaction Times (No worries, you can still decide on the trimming!)}
     \begin{columns}
         \begin{column}{0.4\textwidth}
             \begin{block}{Overall (trimmed 200--3000\,ms)}
@@ -450,25 +439,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}
-    \frametitle{RTs and Accuracy Across Blocks}
-    \begin{figure}
-        \centering
-        \begin{minipage}{0.48\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{plots/accuracy_by_block.pdf}
-            {\scriptsize (A)}
-        \end{minipage}
-        \hfill
-        \begin{minipage}{0.48\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{plots/rt_by_block.pdf}
-            {\scriptsize (B)}
-        \end{minipage}
 
-        \caption{Performance across blocks from \emph{n} = 2,479 participants. (A) Mean accuracy per block across participants. (B) Mean reaction time per block across participants.}
-    \end{figure}
-\end{frame}
 
 
 
@@ -511,16 +482,9 @@
         \begin{itemize}
             \item \textbf{2,479} participants retained after cleaning (target: 2,170 -- exceeded)
             \item \textbf{3,098,750} cleaned trials; 12.4\% participant exclusion rate
-            \item Reproducible preprocessing pipeline (five exclusion steps)
-        \end{itemize}
-    \end{block}
-    \vspace{0.3cm}
-    \begin{block}{Outlook}
-        \begin{itemize}
-            \item Data collection \textbf{complete}; recruitment closed
+            \item  On average $\approx$ \textbf{40} repetitions per word; 12.4\% participant exclusion rate
             \item Item-level reliability established (ICC3k $\approx$ 0.93; ICC2k $\approx$ 0.89)
-            \item Prepare dataset documentation and public release
-            \item Monitoring dashboard: \url{https://github.com/schiekiera/German_Lexicon_Multilab_Monitoring}
+            \item Reproducible preprocessing pipeline (five exclusion steps)
         \end{itemize}
     \end{block}
 \end{frame}
