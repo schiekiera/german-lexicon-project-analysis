@@ -102,44 +102,65 @@
 \end{frame}
 
 
-\begin{frame}
-    \frametitle{Recap: Our Data Collection Targets}
-    \begin{columns}
-        \begin{column}{0.55\textwidth}
-            \begin{block}{Stimuli}
-                \begin{itemize}
-                    \item \textbf{77,500} total items
-                    \begin{itemize}
-                        \item 38,750 words
-                        \item 38,750 nonwords
-                    \end{itemize}
-                    \item At least \textbf{35 repetitions} per item
-                    \item Resulting in \textbf{2,712,500} trials total
-                \end{itemize}
-            \end{block}
-            \begin{block}{Participants}
-                \begin{itemize}
-                    \item Target: \textbf{2,170} participants
-                    \item \textbf{1,250 trials} per participant
-                    \item 10 blocks of 125 trials
-                \end{itemize}
-            \end{block}
-        \end{column}
-        \begin{column}{0.42\textwidth}
 
-            \begin{alertblock}{Exclusion Criteria}
-                \begin{enumerate}
-                    \item Aborted experiments
-                    \item Incomplete data due to technical issues (missing blocks or trials)
-                    \item Non-native German speakers
-                    \item Lexical decision accuracy $< 75$\%
-                    \item Underage participants ($< 18$ years)
-                \end{enumerate}
-            \end{alertblock}
-        \end{column}
-    \end{columns}
+ \begin{frame}
+      \frametitle{Data Collection: Planned vs.\ Observed}
+      \vspace{0.15cm}
+      \begin{center}
+      \begin{tikzpicture}[
+          font=\small,
+          metric/.style={anchor=west, font=\bfseries, text=fuBlue},
+          plan/.style={anchor=center, text=gray!60},
+          obs/.style={anchor=center, text=fuBlue, font=\bfseries\large},
+          pill/.style={anchor=center, fill=accentColor, text=white, rounded corners=4pt,
+                       font=\bfseries\footnotesize, inner xsep=6pt, inner ysep=3pt},
+          sep/.style={gray!25, line width=0.4pt},
+          arr/.style={-latex, accentColor, thick}
+      ]
+          % highlight behind the observed column
+          \fill[fuBlue!7, rounded corners=6pt] (6.25,-3.78) rectangle (8.45,1.5);
 
-\end{frame}
+          % column headers
+          \node[anchor=center, fill=gray!15, text=gray!55, rounded corners=3pt,
+                font=\bfseries\small, inner xsep=8pt, inner ysep=3pt] at (4.2,1.0) {PLANNED};
+          \node[anchor=center, fill=fuBlue, text=white, rounded corners=3pt,
+                font=\bfseries\small, inner xsep=8pt, inner ysep=3pt] at (7.35,1.0) {OBSERVED};
+
+          % Row 1 -- Items
+          \node[metric] at (0.1,0)   {Items};
+          \node[plan]   at (4.2,0)   {30,000};
+          \draw[arr] (5.05,0) -- (6.25,0);
+          \node[obs]    at (7.35,0)  {38,750};
+          \node[pill]   at (9.95,0)  {129\,\%};
+          \draw[sep] (0,-0.55) -- (10.7,-0.55);
+
+          % Row 2 -- Participants
+          \node[metric] at (0.1,-1.1)  {Participants};
+          \node[plan]   at (4.2,-1.1)  {1,440};
+          \draw[arr] (5.05,-1.1) -- (6.25,-1.1);
+          \node[obs]    at (7.35,-1.1) {2,479};
+          \node[pill]   at (9.95,-1.1) {172\,\%};
+          \draw[sep] (0,-1.65) -- (10.7,-1.65);
+
+          % Row 3 -- Repetitions per item
+          \node[metric] at (0.1,-2.2)  {Repetitions / item};
+          \node[plan]   at (4.2,-2.2)  {$\geq$\,30};
+          \draw[arr] (5.05,-2.2) -- (6.25,-2.2);
+          \node[obs]    at (7.35,-2.2) {$\sim$\,40};
+          \node[pill]   at (9.95,-2.2) {133\,\%};
+          \draw[sep] (0,-2.75) -- (10.7,-2.75);
+
+          % Row 4 -- Trials
+          \node[metric] at (0.1,-3.3)  {Trials};
+          \node[plan]   at (4.2,-3.3)  {1,800,00};
+          \draw[arr] (5.05,-3.3) -- (6.25,-3.3);
+          \node[obs]    at (7.35,-3.3) {3,098,750};
+          \node[pill]   at (9.95,-3.3) {172\,\%};
+      \end{tikzpicture}
+      \end{center}
+
+
+  \end{frame}
 
 
 % ===================================================================
@@ -198,46 +219,13 @@
             \draw[->, thick, accentColor] (s5.east) -- (e5.west);
         \end{tikzpicture}
     \end{center}
+    \begin{alertblock}{Exclusions}
+    \begin{itemize}
+         \item  Exclusion rate: \textbf{12.4\%}
+    \end{itemize}
+    \end{alertblock}
 \end{frame}
 
-
-
-\begin{frame}
-    \frametitle{Final Sample Overview}
-    \begin{columns}
-        \begin{column}{0.4\textwidth}
-            \begin{block}{Final Counts (Jun 1, 2026)}
-                \begin{itemize}
-                    \item Datasets collected: \textbf{2,830}
-                    \item Retained after cleaning: \textbf{2,479}
-                    \item Exclusion rate: \textbf{12.4\%}
-                    \item Cleaned trials: \textbf{3,098,750}
-                \end{itemize}
-            \end{block}
-        \end{column}
-        \begin{column}{0.6\textwidth}
-            \begin{block}{Target \& Coverage}
-                \begin{tabular}{lr}
-                    \toprule
-                    Metric & Value \\
-                    \midrule
-                    Original target (valid) & 2,170 \\
-                    Final retained          & 2,479 \\
-                    Stimulus-list coverage  & complete \\
-                    \bottomrule
-                \end{tabular}
-            \end{block}
-            \vspace{0.3cm}
-            \begin{alertblock}{Status}
-                \begin{itemize}
-                    \item Data collection \textbf{complete} (Jun 1, 2026); recruitment closed
-                \end{itemize}
-            \end{alertblock}
-
-        
-        \end{column}
-    \end{columns}
-\end{frame}
 
 
 % ===================================================================
@@ -261,7 +249,7 @@
             \end{block}
             \vspace{0.2cm}
             \begin{alertblock}{Coverage}
-                \small Every item was seen \textbf{$\geq 35$} times (\emph{M} $\approx$ 40), giving stable item-level estimates.
+                \small Every item was seen \textbf{$\geq 35$} times (\emph{M} $\approx$ 40).
             \end{alertblock}
         \end{column}
         \begin{column}{0.6\textwidth}
@@ -453,9 +441,8 @@
             \begin{block}{What to report}
                 \footnotesize
                 \begin{itemize}
-                    \item \textbf{A5 = ICC3k $\approx 0.93$} -- internal consistency ($=$ Cronbach's $\alpha$); our headline.
-                    \item \textbf{A4 = ICC2k $\approx 0.89$} -- reliability expected in a \emph{new} participant sample.
-                    \item A1--A2 are in-house consistency estimates; the spread across A1--A5 reflects estimator and outlier handling.
+                    \item \textbf{A5 = Marc's ICC3k $\approx 0.94$} -- internal consistency ($=$ Cronbach's $\alpha$).
+                    \item \textbf{A2 = Sascha's ICC3k $\approx 0.93$}  -- ICC3k "not using the harmonic, but the simple mean for the number of data points."
                 \end{itemize}
             \end{block}
             \begin{alertblock}{Takeaway}
@@ -480,9 +467,9 @@
     \frametitle{Summary \& Outlook}
     \begin{block}{Final Dataset}
         \begin{itemize}
-            \item \textbf{2,479} participants retained after cleaning (target: 2,170 -- exceeded)
-            \item \textbf{3,098,750} cleaned trials; 12.4\% participant exclusion rate
-            \item  On average $\approx$ \textbf{40} repetitions per word; 12.4\% participant exclusion rate
+            \item \textbf{2,479} participants retained after cleaning (target: 1,440 -- exceeded)
+            \item \textbf{3,098,750} cleaned trials
+            \item  On average $\approx$ \textbf{40} repetitions per word
             \item Item-level reliability established (ICC3k $\approx$ 0.93; ICC2k $\approx$ 0.89)
             \item Reproducible preprocessing pipeline (five exclusion steps)
         \end{itemize}

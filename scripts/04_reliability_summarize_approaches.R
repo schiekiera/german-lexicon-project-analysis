@@ -27,7 +27,7 @@ library(tidyr)
 library(purrr)
 library(ggplot2)
 library(lme4)
-library(data.table)   # fast data load, fast split-half aggregation, and ICC_stimulus_long
+library(data.table) # fast data load, fast split-half aggregation, and ICC_stimulus_long
 library(here)
 
 set.seed(12345)
@@ -35,8 +35,8 @@ set.seed(12345)
 # -----------------------------
 # Settings
 # -----------------------------
-n_samp     <- 200   # split-half iterations (stable Spearman-Brown estimate; raise for more precision)
-OUTLIER_SD <- 3     # Brysbaert 3-SD residual outlier removal (NULL to disable)
+n_samp <- 200 # split-half iterations (stable Spearman-Brown estimate; raise for more precision)
+OUTLIER_SD <- 3 # Brysbaert 3-SD residual outlier removal (NULL to disable)
 
 # Progress log (appended live so a long run can be monitored)
 PROG <- here::here("output", "log", "reliability_progress.log")
@@ -62,9 +62,11 @@ ICC_stimulus_long <- function(participant, stimulus, response, data, outlier_sd 
 
   # --- 1. Fast Data Prep ---
   dt <- as.data.table(data)
-  dt <- dt[, .(P = as.factor(get(participant)),
-               S = as.factor(get(stimulus)),
-               R = as.numeric(as.character(get(response))))]
+  dt <- dt[, .(
+    P = as.factor(get(participant)),
+    S = as.factor(get(stimulus)),
+    R = as.numeric(as.character(get(response)))
+  )]
   dt <- dt[!is.na(R)]
 
   # --- 2. High-Speed Outlier Detection (Expected Value Logic) ---
@@ -93,41 +95,46 @@ ICC_stimulus_long <- function(participant, stimulus, response, data, outlier_sd 
   k_harm <- length(counts) / sum(1 / counts)
 
   # --- 4. Models ---
-  tryCatch({
-    m_main <- lmer(R ~ 1 + (1|S) + (1|P), data = dt)
-    vc <- as.data.frame(VarCorr(m_main))
+  tryCatch(
+    {
+      m_main <- lmer(R ~ 1 + (1 | S) + (1 | P), data = dt)
+      vc <- as.data.frame(VarCorr(m_main))
 
-    v_S     <- vc$vcov[vc$grp == "S"]
-    v_P     <- vc$vcov[vc$grp == "P"]
-    v_resid <- vc$vcov[vc$grp == "Residual"]
+      v_S <- vc$vcov[vc$grp == "S"]
+      v_P <- vc$vcov[vc$grp == "P"]
+      v_resid <- vc$vcov[vc$grp == "Residual"]
 
-    m_oneside <- lmer(R ~ 1 + (1|S), data = dt)
-    v_S1      <- as.data.frame(VarCorr(m_oneside))$vcov[1]
-    v_resid1  <- as.data.frame(VarCorr(m_oneside))$vcov[2]
+      m_oneside <- lmer(R ~ 1 + (1 | S), data = dt)
+      v_S1 <- as.data.frame(VarCorr(m_oneside))$vcov[1]
+      v_resid1 <- as.data.frame(VarCorr(m_oneside))$vcov[2]
 
-    # --- 5. ICCs ---
-    icc1k <- v_S1 / (v_S1 + (v_resid1 / k_harm))           # ICC(1,k) one-way random
-    icc2k <- v_S / (v_S + (v_P + v_resid) / k_harm)        # ICC(2,k) two-way random
-    icc3k <- v_S / (v_S + (v_resid / k_harm))              # ICC(3,k) two-way mixed
+      # --- 5. ICCs ---
+      icc1k <- v_S1 / (v_S1 + (v_resid1 / k_harm)) # ICC(1,k) one-way random
+      icc2k <- v_S / (v_S + (v_P + v_resid) / k_harm) # ICC(2,k) two-way random
+      icc3k <- v_S / (v_S + (v_resid / k_harm)) # ICC(3,k) two-way mixed
 
-    # --- 6. Stimulus Scores (BLUPs) ---
-    grand_mean <- fixef(m_main)["(Intercept)"]
-    blups      <- ranef(m_main)$S
+      # --- 6. Stimulus Scores (BLUPs) ---
+      grand_mean <- fixef(m_main)["(Intercept)"]
+      blups <- ranef(m_main)$S
 
-    stim_stats <- dt[, .(N = as.integer(.N), Raw_Mean = mean(R)), by = .(Stimulus = S)]
-    blup_table <- data.table(Stimulus = rownames(blups), BLUP = blups[,1] + grand_mean)
-    final_stimuli <- merge(stim_stats, blup_table, by = "Stimulus")
-    setcolorder(final_stimuli, c("Stimulus", "N", "Raw_Mean", "BLUP"))
+      stim_stats <- dt[, .(N = as.integer(.N), Raw_Mean = mean(R)), by = .(Stimulus = S)]
+      blup_table <- data.table(Stimulus = rownames(blups), BLUP = blups[, 1] + grand_mean)
+      final_stimuli <- merge(stim_stats, blup_table, by = "Stimulus")
+      setcolorder(final_stimuli, c("Stimulus", "N", "Raw_Mean", "BLUP"))
 
-    return(list(
-      ICCs = data.frame(Measure = c("ICC1k", "ICC2k", "ICC3k"),
-                        Value = c(icc1k, icc2k, icc3k), k_Harmonic = k_harm),
-      Stimuli = final_stimuli,
-      Outliers_Removed = num_outliers
-    ))
-  }, error = function(e) {
-    stop("Model fitting failed: ", e$message)
-  })
+      return(list(
+        ICCs = data.frame(
+          Measure = c("ICC1k", "ICC2k", "ICC3k"),
+          Value = c(icc1k, icc2k, icc3k), k_Harmonic = k_harm
+        ),
+        Stimuli = final_stimuli,
+        Outliers_Removed = num_outliers
+      ))
+    },
+    error = function(e) {
+      stop("Model fitting failed: ", e$message)
+    }
+  )
 }
 
 # -----------------------------
@@ -141,8 +148,9 @@ plog("Using input file: ", file_path)
 
 # RT reliability is computed on CORRECT trials, trimmed to 200-4000 ms.
 glp <- data.table::fread(file_path,
-                         select = c("subject_id", "word", "rt", "type", "accuracy"),
-                         showProgress = FALSE) |>
+  select = c("subject_id", "word", "rt", "type", "accuracy"),
+  showProgress = FALSE
+) |>
   as.data.frame() |>
   dplyr::filter(!is.na(subject_id), !is.na(word), !is.na(rt), !is.na(type)) |>
   dplyr::filter(accuracy == "correct", rt >= 200, rt <= 4000) |>
@@ -178,7 +186,7 @@ reliability_approach1 <- function(df) {
 
   vc <- as.data.frame(VarCorr(m))
 
-  sigma_item  <- vc[vc$grp == "word", "vcov"] |> as.numeric()
+  sigma_item <- vc[vc$grp == "word", "vcov"] |> as.numeric()
   sigma_error <- vc[vc$grp == "Residual", "vcov"] |> as.numeric()
 
   # average observations per item (word) in THIS condition
@@ -204,19 +212,19 @@ split_half_reliability <- function(df, n_samp = 200, base_seed = 10000) {
   if (length(participants) < 4) stop("Too few participants for split-half reliability.")
   half_n <- floor(length(participants) / 2)
 
-  sb         <- numeric(n_samp)
+  sb <- numeric(n_samp)
   items_used <- integer(n_samp)
   for (s in seq_len(n_samp)) {
     set.seed(base_seed + s)
     A_ids <- sample(participants, size = half_n, replace = FALSE)
-    inA   <- dt$subject_id %in% A_ids
+    inA <- dt$subject_id %in% A_ids
 
-    means_A <- dt[inA,  .(mean_A = mean(log_rt, na.rm = TRUE)), by = word]
+    means_A <- dt[inA, .(mean_A = mean(log_rt, na.rm = TRUE)), by = word]
     means_B <- dt[!inA, .(mean_B = mean(log_rt, na.rm = TRUE)), by = word]
-    merged  <- merge(means_A, means_B, by = "word")
+    merged <- merge(means_A, means_B, by = "word")
 
     r <- suppressWarnings(cor(merged$mean_A, merged$mean_B, method = "spearman"))
-    sb[s]         <- (2 * r) / (1 + r)
+    sb[s] <- (2 * r) / (1 + r)
     items_used[s] <- nrow(merged)
   }
 
@@ -259,28 +267,32 @@ reliability_brysbaert <- function(df, outlier_sd = 3) {
 res_a1 <- imap_dfr(conds, function(df_cond, cond_name) {
   plog("A1 mixed ICC: ", cond_name)
   out <- reliability_approach1(df_cond)
-  tibble(condition = cond_name, approach = "approach_1_mixed_icc",
-         reliability_current = out$reliability_current, n_current = out$n_current)
+  tibble(
+    condition = cond_name, approach = "approach_1_mixed_icc",
+    reliability_current = out$reliability_current, n_current = out$n_current
+  )
 })
 
 # Approach 3 (split-half)
 res_a3 <- imap_dfr(conds, function(df_cond, cond_name) {
   plog("A3 split-half (", n_samp, " iters): ", cond_name)
   out <- reliability_approach3(df_cond, n_samp = n_samp)
-  tibble(condition = cond_name, approach = "approach_3_split_half",
-         reliability_current = out$reliability_current, n_current = out$n_current)
+  tibble(
+    condition = cond_name, approach = "approach_3_split_half",
+    reliability_current = out$reliability_current, n_current = out$n_current
+  )
 })
 
 # Brysbaert ICC1k/2k/3k (+ collect BLUPs)
 res_icc_list <- list()
-blups_list   <- list()
+blups_list <- list()
 for (cond_name in names(conds)) {
   plog("Brysbaert ICCs: ", cond_name)
   df_cond <- conds[[cond_name]]
   b <- reliability_brysbaert(df_cond, outlier_sd = OUTLIER_SD)
   res_icc_list[[cond_name]] <- tibble(
     condition = cond_name,
-    approach  = paste0("brysbaert_", tolower(b$ICCs$Measure)),  # brysbaert_icc1k/2k/3k
+    approach = paste0("brysbaert_", tolower(b$ICCs$Measure)), # brysbaert_icc1k/2k/3k
     reliability_current = b$ICCs$Value,
     n_current = length(unique(df_cond$subject_id))
   )
@@ -288,8 +300,10 @@ for (cond_name in names(conds)) {
 }
 res_icc <- bind_rows(res_icc_list)
 
-approach_levels <- c("approach_1_mixed_icc", "approach_3_split_half",
-                     "brysbaert_icc1k", "brysbaert_icc2k", "brysbaert_icc3k")
+approach_levels <- c(
+  "approach_1_mixed_icc", "approach_3_split_half",
+  "brysbaert_icc1k", "brysbaert_icc2k", "brysbaert_icc3k"
+)
 
 res_current <- bind_rows(res_a1, res_a3, res_icc) %>%
   mutate(
@@ -312,17 +326,18 @@ print(as.data.frame(res_current_wide), digits = 4)
 # -----------------------------
 # Approach labels A1-A5 with short method descriptions:
 nice_labels <- c(
-  approach_1_mixed_icc  = "A1: mixed ICC",
-  approach_3_split_half = "A2: split-half SB",
-  brysbaert_icc1k       = "A3: ICC1k\n(conservative)",
-  brysbaert_icc2k       = "A4: ICC2k\n(generalisability)",
-  brysbaert_icc3k       = "A5: ICC3k\n(= Cronbach alpha)"
+  approach_3_split_half = "A1: classic split-half SB",
+  approach_1_mixed_icc  = "A2: Sascha's ICC3k",
+  brysbaert_icc1k       = "A3: Marc's ICC1k\n(conservative)",
+  brysbaert_icc2k       = "A4: Marc's ICC2k\n(generalisability)",
+  brysbaert_icc3k       = "A5: Marc's ICC3k\n(= Cronbach alpha)"
 )
 
 p <- ggplot(res_current, aes(x = approach, y = reliability_current, fill = condition)) +
   geom_col(position = position_dodge(width = 0.8), width = 0.72) +
   geom_text(aes(label = sprintf("%.3f", reliability_current)),
-            position = position_dodge(width = 0.8), vjust = -0.4, size = 2.6) +
+    position = position_dodge(width = 0.8), vjust = -0.4, size = 2.6
+  ) +
   geom_hline(yintercept = 0.8, linetype = "dashed", color = "grey50") +
   scale_x_discrete(labels = nice_labels) +
   scale_fill_brewer(palette = "Set2") +
@@ -340,7 +355,9 @@ ggsave(here::here("output/plots/reliability_methods_comparison.pdf"), p, width =
 # -----------------------------
 data.table::fwrite(res_current, here::here("output/summary/reliability_methods_comparison.csv"))
 for (cond_name in names(blups_list)) {
-  data.table::fwrite(blups_list[[cond_name]],
-                     here::here(paste0("output/summary/reliability_blups_", cond_name, ".csv")))
+  data.table::fwrite(
+    blups_list[[cond_name]],
+    here::here(paste0("output/summary/reliability_blups_", cond_name, ".csv"))
+  )
 }
 plog("DONE -- wrote comparison table, barplot, and BLUP files")
