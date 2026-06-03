@@ -9,5 +9,6 @@ output/snapshot_after_step3_*.csv
 *.swp
 *.swo
 .Rproj.user
+.vscode
 CLAUDE.md
 git_note.txt
