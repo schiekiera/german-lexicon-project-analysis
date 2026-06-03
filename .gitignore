@@ -1,7 +1,6 @@
 clean_data/
 presentation/context/
 context/
-.vscode/
 output/exclusions_all_data_cleaned_*.csv
 output/snapshot_after_step3_*.csv
 .DS_Store
