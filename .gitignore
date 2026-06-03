@@ -1,8 +1,25 @@
-clean_data/
+data/
 presentation/context/
 context/
+
+# Large/generated output files produced by merger script
 output/exclusions_all_data_cleaned_*.csv
-output/snapshot_after_step3_*.csv
+output/ids_to_refill_*.txt
+output/list_summary_*.csv
+output/missing_ids_detail_*.csv
+output/duplicate_demo_files.csv
+output/duplicate_global_ids.csv
+output/duplicate_global_id_details.csv
+output/duplicate_slots.csv
+
+# Log files (timestamped, accumulate with each run)
+output/log/*.log
+
+# Wrongly-created folders from running scripts with wrong working directory
+scripts/01_preprocessing_hu_group/output/
+scripts/01_preprocessing_hu_group/data/
+
+# System / editor files
 .DS_Store
 *.tmp
 *.bak

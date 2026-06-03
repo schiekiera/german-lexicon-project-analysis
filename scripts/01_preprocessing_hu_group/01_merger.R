@@ -1,8 +1,8 @@
-# Lexical Decision Data Cleaning and Merging Script
+﻿# Lexical Decision Data Cleaning and Merging Script
 # Date: 2025-12-05
 
 # This script reads, cleans, and merges lexical decision data exported as CSVs.
-# Make sure this script is it the same folder with the 'data' folder containing the CSVs and you have created the 'ouput' folder for the cleaned data.
+# Working directory is set to the project root (00_analysis/) via here::here().
 
 # Clear workspace
 rm(list = ls())
@@ -14,6 +14,9 @@ library(stringr)
 library(purrr)
 library(tidyr)
 library(jsonlite)
+library(here)
+
+setwd(here::here())
 
 script_start_time <- Sys.time()
 stage_start_time <- Sys.time()
@@ -23,8 +26,8 @@ time <- run_timestamp_file
 
 local_log_dir <- file.path(getwd(), "output", "log")
 dir.create(local_log_dir, recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(getwd(), "raw_data"),   recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(getwd(), "clean_data"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(getwd(), "data/02_precleaned_data"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(getwd(), "data/01_accuracy_analysis_after_step4_participant_level_exclusions"), recursive = TRUE, showWarnings = FALSE)
 
 local_log_file <- file.path(local_log_dir,
                             paste0("merger_log_", run_timestamp_file, ".log"))
@@ -62,7 +65,7 @@ log_stage("Script started")
 log_info("Evaluation start time:",
          format(script_start_time, "%Y-%m-%d %H:%M:%S"))
 log_info("Working directory:", getwd())
-log_info("Input directory:", file.path(getwd(), "data"))
+log_info("Input directory:", file.path(getwd(), "data", "00_raw_data", "data"))
 log_info("Output prefix:", file.path(getwd(), "output"))
 log_info("Local log file:", local_log_file)
 
@@ -119,7 +122,7 @@ strip_html <- function(text) {
 # Discover all CSV files in the current directory
 stage_start_time <- Sys.time()
 log_stage("Discovering CSV files")
-all_files <- list.files("data",
+all_files <- list.files(file.path("data", "00_raw_data", "data"),
                         pattern = "\\.csv$",
                         full.names = TRUE,
                         recursive = TRUE)
@@ -865,65 +868,7 @@ if (length(non_native_participants) > 0) {
 }
 log_checkpoint("Native German exclusion complete")
 
-# Snapshot after step 3 (before step 4 accuracy exclusion).
-snapshot_after_step3 <- final_data
-
-# Step 4 participant exclusion: mean participant accuracy below 0.75.
-stage_start_time <- Sys.time()
-log_stage("Participant exclusion by minimum accuracy threshold")
-
-if (nrow(final_data) > 0 &&
-    all(c("participant_id", "accuracy") %in% names(final_data))) {
-  participant_accuracy <- final_data %>%
-    mutate(accuracy_flag = case_when(
-      accuracy == "correct" ~ 1,
-      accuracy == "incorrect" ~ 0,
-      TRUE ~ NA_real_
-    )) %>%
-    group_by(participant_id) %>%
-    summarise(mean_accuracy = mean(accuracy_flag, na.rm = TRUE),
-              .groups = "drop")
-  
-  low_accuracy_participants <- participant_accuracy %>%
-    filter(!is.na(mean_accuracy) & mean_accuracy < 0.75) %>%
-    pull(participant_id)
-} else {
-  low_accuracy_participants <- character()
-}
-
-if (length(low_accuracy_participants) > 0) {
-  step4_exclusions <- final_data %>%
-    filter(participant_id %in% low_accuracy_participants) %>%
-    mutate(
-      exclusion_step = "step4_low_accuracy",
-      exclusion_reason = "Participant mean accuracy is below 0.75",
-      exclusion_timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
-      script_run_timestamp = run_timestamp
-    )
-  
-  exclusions_ <- bind_rows(exclusions_, step4_exclusions)
-  
-  final_data <- final_data %>%
-    filter(!participant_id %in% low_accuracy_participants)
-}
-
-log_info("Excluded at step 4 (accuracy < 0.75):",
-         length(low_accuracy_participants))
-log_info(
-  "Step 4 excluded trial rows:",
-  sum(exclusions_$exclusion_step == "step4_low_accuracy", na.rm = TRUE)
-)
-log_info("Retained after step 4:",
-         dplyr::n_distinct(final_data$participant_id))
-if (length(low_accuracy_participants) > 0) {
-  log_info("Example excluded participant IDs (accuracy < 0.75):",
-           paste(head(low_accuracy_participants, 10), collapse = ", "))
-}
-log_info("Total excluded trial rows (all steps):", nrow(exclusions_))
-log_checkpoint("Accuracy-threshold exclusion complete")
-
-
-#Step 5 participant exclusion: participants under 18 years old.
+# Step 4 participant exclusion: participants under 18 years old.
 stage_start_time <- Sys.time()
 log_stage("Participant exclusion by minimum age threshold")
 
@@ -955,27 +900,27 @@ if (nrow(final_data) > 0 && "age" %in% names(final_data)) {
 }
 
 if (length(underage_participants) > 0) {
-  step5_exclusions <- final_data %>%
+  step4_exclusions <- final_data %>%
     filter(participant_id %in% underage_participants) %>%
     mutate(
-      exclusion_step = "step5_underage",
+      exclusion_step = "step4_underage",
       exclusion_reason = "Participant age is below 18",
       exclusion_timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
       script_run_timestamp = run_timestamp
     )
   
-  exclusions_ <- bind_rows(exclusions_, step5_exclusions)
+  exclusions_ <- bind_rows(exclusions_, step4_exclusions)
   
   final_data <- final_data %>%
     filter(!participant_id %in% underage_participants)
 }
 
-log_info("Excluded at step 5 (age < 18):", length(underage_participants))
+log_info("Excluded at step 4 (age < 18):", length(underage_participants))
 log_info(
-  "Step 5 excluded trial rows:",
-  sum(exclusions_$exclusion_step == "step5_underage", na.rm = TRUE)
+  "Step 4 excluded trial rows:",
+  sum(exclusions_$exclusion_step == "step4_underage", na.rm = TRUE)
 )
-log_info("Retained after step 5:",
+log_info("Retained after step 4:",
          dplyr::n_distinct(final_data$participant_id))
 if (length(underage_participants) > 0) {
   log_info("Example excluded participant IDs (underage):",
@@ -983,33 +928,90 @@ if (length(underage_participants) > 0) {
 }
 log_checkpoint("Age exclusion complete")
 
+# Snapshot after step 4 (before step 5 accuracy exclusion — used for accuracy distribution plots).
+snapshot_after_step4 <- final_data
+
+# Step 5 participant exclusion: mean participant accuracy below 0.75.
+stage_start_time <- Sys.time()
+log_stage("Participant exclusion by minimum accuracy threshold")
+
+if (nrow(final_data) > 0 &&
+    all(c("participant_id", "accuracy") %in% names(final_data))) {
+  participant_accuracy <- final_data %>%
+    mutate(accuracy_flag = case_when(
+      accuracy == "correct" ~ 1,
+      accuracy == "incorrect" ~ 0,
+      TRUE ~ NA_real_
+    )) %>%
+    group_by(participant_id) %>%
+    summarise(mean_accuracy = mean(accuracy_flag, na.rm = TRUE),
+              .groups = "drop")
+  
+  low_accuracy_participants <- participant_accuracy %>%
+    filter(!is.na(mean_accuracy) & mean_accuracy < 0.75) %>%
+    pull(participant_id)
+} else {
+  low_accuracy_participants <- character()
+}
+
+if (length(low_accuracy_participants) > 0) {
+  step5_exclusions <- final_data %>%
+    filter(participant_id %in% low_accuracy_participants) %>%
+    mutate(
+      exclusion_step = "step5_low_accuracy",
+      exclusion_reason = "Participant mean accuracy is below 0.75",
+      exclusion_timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+      script_run_timestamp = run_timestamp
+    )
+  
+  exclusions_ <- bind_rows(exclusions_, step5_exclusions)
+  
+  final_data <- final_data %>%
+    filter(!participant_id %in% low_accuracy_participants)
+}
+
+log_info("Excluded at step 5 (accuracy < 0.75):",
+         length(low_accuracy_participants))
+log_info(
+  "Step 5 excluded trial rows:",
+  sum(exclusions_$exclusion_step == "step5_low_accuracy", na.rm = TRUE)
+)
+log_info("Retained after step 5:",
+         dplyr::n_distinct(final_data$participant_id))
+if (length(low_accuracy_participants) > 0) {
+  log_info("Example excluded participant IDs (accuracy < 0.75):",
+           paste(head(low_accuracy_participants, 10), collapse = ", "))
+}
+log_info("Total excluded trial rows (all steps):", nrow(exclusions_))
+log_checkpoint("Accuracy-threshold exclusion complete")
+
 # Write output
 stage_start_time <- Sys.time()
 log_stage("Writing output file")
 output_path <- "output/"
 
-output_file_final_precleaned <- paste0("raw_data/", "final_data_precleaned_", time, ".csv")
-output_file_anonymized       <- paste0("clean_data/", "anonymized_final_data_precleaned_", time, ".csv")
+output_file_final_precleaned <- file.path("data", "02_precleaned_data", paste0("final_data_precleaned_", time, ".csv"))
+output_file_anonymized       <- file.path("data", "02_precleaned_data", paste0("anonymized_final_data_precleaned_", time, ".csv"))
 
-output_file_snapshot_step3 <- paste0(output_path, "snapshot_after_step3_", time, ".csv")
+output_file_snapshot_step4 <- file.path("data", "01_accuracy_analysis_after_step4_participant_level_exclusions", paste0("snapshot_after_step4_", time, ".csv"))
 exclusions_file_all <- paste0(output_path, "exclusions_all_data_cleaned_", time, ".csv")
 
 log_info("Writing final precleaned output to:",
          output_file_final_precleaned)
-log_info("Writing snapshot after step 3 to:", output_file_snapshot_step3)
+log_info("Writing snapshot after step 4 to:", output_file_snapshot_step4)
 log_info("Writing exclusions (all steps) to:", exclusions_file_all)
 
-if (nrow(snapshot_after_step3) > 0) {
-  write_csv(snapshot_after_step3, output_file_snapshot_step3, na = "")
+if (nrow(snapshot_after_step4) > 0) {
+  write_csv(snapshot_after_step4, output_file_snapshot_step4, na = "")
   log_info(
     "Successfully wrote",
-    nrow(snapshot_after_step3),
+    nrow(snapshot_after_step4),
     "rows to",
-    output_file_snapshot_step3
+    output_file_snapshot_step4
   )
 } else {
-  log_info("No snapshot data after step 3 - creating empty file")
-  write_csv(tibble(), output_file_snapshot_step3)
+  log_info("No snapshot data after step 4 - creating empty file")
+  write_csv(tibble(), output_file_snapshot_step4)
 }
 
 if (nrow(final_data) > 0) {
@@ -1069,8 +1071,8 @@ initial_n <- length(all_participant_ids)
 excluded_step1 <- unique(incomplete_participants)
 excluded_step2 <- unique(low_trial_participants)
 excluded_step3 <- unique(non_native_participants)
-excluded_step4 <- unique(low_accuracy_participants)
-excluded_step5 <- unique(underage_participants)
+excluded_step4 <- unique(underage_participants)
+excluded_step5 <- unique(low_accuracy_participants)
 
 all_excluded_participants <- unique(c(
   excluded_step1,
@@ -1090,8 +1092,8 @@ log_info("INITIAL participants:", initial_n)
 log_info("Excluded step 1 (missing blocks):", length(excluded_step1))
 log_info("Excluded step 2 (<1250 trials):", length(excluded_step2))
 log_info("Excluded step 3 (non-native German):", length(excluded_step3))
-log_info("Excluded step 4 (accuracy < 0.75):", length(excluded_step4))
-log_info("Excluded step 5 (underage):", length(excluded_step5))
+log_info("Excluded step 4 (underage):", length(excluded_step4))
+log_info("Excluded step 5 (accuracy < 0.75):", length(excluded_step5))
 log_info("--------------------------------------------------")
 log_info("TOTAL excluded participants (unique):", n_excluded_total)
 log_info("FINAL participants retained:", n_final)
@@ -1274,12 +1276,6 @@ writeLines(as.character(sort(ids_to_refill$global_id)), output_file)
 log_info("Refill ID list written to:", output_file)
 
 
-# ------------------------------------------------------------------
-# Diagnose duplicated global IDs and overused lists
-# ------------------------------------------------------------------
-
-log_stage("Diagnosing duplicated IDs and overused lists")
-
 # Ensure numeric
 final_data <- final_data %>%
   mutate(list                = as.integer(list),
@@ -1296,68 +1292,6 @@ final_data_mapped <- final_data_mapped %>%
            (list - list_base) * participants_per_list +
            participant_in_list)
 
-# 1. Find duplicated global IDs
-dup_ids <- final_data_mapped %>%
-  distinct(participant_id, global_id) %>%
-  count(global_id) %>%
-  filter(n > 1) %>%
-  arrange(desc(n))
-
-log_info("Number of duplicated global IDs:", nrow(dup_ids))
-if (nrow(dup_ids) > 0) {
-  log_info("Top duplicated IDs:", paste(head(dup_ids$global_id, 20), collapse = ", "))
-}
-
-# Which participants share those IDs
-dup_id_details <- final_data_mapped %>%
-  filter(global_id %in% dup_ids$global_id) %>%
-  distinct(participant_id, global_id, list, participant_in_list) %>%
-  arrange(global_id)
-
-# 2. Check list overuse
-actual_per_list_diag <- final_data_mapped %>%
-  distinct(participant_id, list) %>%
-  count(list, name = "actual_n")
-
-expected_per_list_diag <- tibble(list = 1:70) %>%
-  rowwise() %>%
-  mutate(
-    config_row = which(list >= list_config$list_start &
-                         list <= list_config$list_end),
-    expected_n = list_config$participants_per_list[config_row]
-  ) %>%
-  ungroup()
-
-list_check <- actual_per_list_diag %>%
-  left_join(expected_per_list_diag, by = "list") %>%
-  mutate(diff = actual_n - expected_n)
-
-overused_lists <- list_check %>%
-  filter(diff > 0) %>%
-  arrange(desc(diff))
-
-log_info("Number of overused lists:", nrow(overused_lists))
-if (nrow(overused_lists) > 0) {
-  log_info("Overused lists (list: excess participants):",
-           paste(paste0(overused_lists$list, ":", overused_lists$diff), collapse = ", "))
-}
-
-# 3. Check duplicated participant slots within list
-dup_slots <- final_data_mapped %>%
-  distinct(participant_id, list, participant_in_list) %>%
-  count(list, participant_in_list) %>%
-  filter(n > 1) %>%
-  arrange(desc(n))
-
-log_info("Duplicated participant slots within lists:", nrow(dup_slots))
-
-# Write diagnostic files
-write_csv(dup_ids,        file.path("output", "duplicate_global_ids.csv"))
-write_csv(dup_id_details, file.path("output", "duplicate_global_id_details.csv"))
-write_csv(overused_lists, file.path("output", "overused_lists.csv"))
-write_csv(dup_slots,      file.path("output", "duplicate_slots.csv"))
-
-log_info("Diagnostic files written to output/")
 
 # ------------------------------------------------------------------
 # SIMPLE PARTICIPANT COUNT PER LIST (EXPECTED vs ACTUAL + DEVIATIONS)
@@ -1404,41 +1338,26 @@ list_summary_with_ids <- expected_per_list %>%
   left_join(actual_global_ids_per_list, by = "list") %>%
   mutate(
     actual_n = tidyr::replace_na(actual_n, 0),
-    actual_global_ids = purrr::map(actual_global_ids, 
+    actual_global_ids = purrr::map(actual_global_ids,
                                    ~ if (is.null(.x)) integer(0) else .x),
-    
+
     # Missing: expected slots with no participant
     missing_global_ids = map2(expected_global_ids, actual_global_ids,
                               ~ setdiff(.x, .y)),
-    
-    # Additional: participants in slots that are DUPLICATED
-    # i.e. same global ID appears more than once
-    additional_global_ids = map(actual_global_ids, function(ids) {
-      dup_ids <- ids[duplicated(ids)]
-      unique(dup_ids)
-    }),
-    
-    missing_n    = map_int(missing_global_ids, length),
-    additional_n = map_int(additional_global_ids, length),
-    
-    missing_ids_str    = map_chr(missing_global_ids, 
-                                 ~ if (length(.x) > 0) paste(.x, collapse = ", ") else ""),
-    additional_ids_str = map_chr(additional_global_ids, 
-                                 ~ if (length(.x) > 0) paste(.x, collapse = ", ") else "")
+
+    missing_n = map_int(missing_global_ids, length),
+
+    missing_ids_str = map_chr(missing_global_ids,
+                               ~ if (length(.x) > 0) paste(.x, collapse = ", ") else "")
   ) %>%
-  select(list, expected_n, actual_n, missing_n, additional_n,
-         missing_ids_str, additional_ids_str) %>%
-  rename(
-    missing_global_ids    = missing_ids_str,
-    additional_global_ids = additional_ids_str
-  ) %>%
+  select(list, expected_n, actual_n, missing_n, missing_ids_str) %>%
+  rename(missing_global_ids = missing_ids_str) %>%
   arrange(list)
 
 # Create a cleaner version for display (only show ID columns when relevant)
 list_summary <- list_summary_with_ids %>%
   mutate(
-    missing_global_ids = if_else(missing_n > 0, missing_global_ids, ""),
-    additional_global_ids = if_else(additional_n > 0, additional_global_ids, "")
+    missing_global_ids = if_else(missing_n > 0, missing_global_ids, "")
   )
 
 # 6. Output summary
@@ -1447,8 +1366,8 @@ list_summary %>% print(n = Inf)
 
 log_info("Lists with deviations from expected:")
 deviations_summary <- list_summary %>%
-  filter(missing_n != 0 | additional_n != 0) %>%
-  arrange(desc(additional_n), desc(missing_n))
+  filter(missing_n != 0) %>%
+  arrange(desc(missing_n))
 
 deviations_summary %>% print(n = Inf)
 
@@ -1460,23 +1379,11 @@ if (nrow(deviations_summary) > 0) {
     select(list, missing_n, missing_global_ids) %>%
     head(10) %>%
     print()
-  
-  log_info("Sample of lists with additional participants:")
-  list_summary %>%
-    filter(additional_n > 0) %>%
-    select(list, additional_n, additional_global_ids) %>%
-    head(10) %>%
-    print()
 }
 
 total_missing <- sum(list_summary$missing_n, na.rm = TRUE)
-total_additional <- sum(list_summary$additional_n, na.rm = TRUE)
 
 log_info("Total missing participants across all lists:", total_missing)
-log_info("Total additional participants across all lists:",
-         total_additional)
-log_info("Net deviation (additional - missing):",
-         total_additional - total_missing)
 
 # Sanity check: this should match the refill count
 expected_refill_count <- nrow(ids_to_refill)
@@ -1501,22 +1408,13 @@ output_file_summary <- file.path("output", paste0("list_summary_", time, ".csv")
 write_csv(list_summary, output_file_summary)
 log_info("List summary written to:", output_file_summary)
 
-# Also write a detailed version with one row per missing/additional ID for easier analysis
+# Also write a detailed version with one row per missing ID for easier analysis
 detailed_missing <- list_summary_with_ids %>%
   filter(missing_n > 0) %>%
   select(list, missing_global_ids) %>%
   separate_rows(missing_global_ids, sep = ", ") %>%
   filter(missing_global_ids != "") %>%
   mutate(global_id = as.integer(missing_global_ids)) %>%
-  select(list, global_id) %>%
-  arrange(list, global_id)
-
-detailed_additional <- list_summary_with_ids %>%
-  filter(additional_n > 0) %>%
-  select(list, additional_global_ids) %>%
-  separate_rows(additional_global_ids, sep = ", ") %>%
-  filter(additional_global_ids != "") %>%
-  mutate(global_id = as.integer(additional_global_ids)) %>%
   select(list, global_id) %>%
   arrange(list, global_id)
 
@@ -1527,12 +1425,4 @@ if (nrow(detailed_missing) > 0) {
            output_file_missing_detail)
 }
 
-if (nrow(detailed_additional) > 0) {
-  output_file_additional_detail <- file.path("output", paste0("additional_ids_detail_", time, ".csv"))
-  write_csv(detailed_additional, output_file_additional_detail)
-  log_info("Detailed additional IDs written to:",
-           output_file_additional_detail)
-}
-
 log_info("Script finished successfully")
-

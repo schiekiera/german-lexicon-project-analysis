@@ -17,6 +17,7 @@ library(ggplot2)
 library(dePlzMap)
 library(here)
 
+setwd(here::here())
 
 # 1.2 Run metadata
 run_timestamp <- format(Sys.time(), "%Y-%m-%d_%H-%M-%S")
@@ -24,16 +25,8 @@ run_timestamp <- format(Sys.time(), "%Y-%m-%d_%H-%M-%S")
 # ============================================================
 # 2. Paths and Logging
 # ============================================================
-# 2.1 Output directories (local + mirror)
-output_dir <- "output"
-data_dir <- "clean_data"
-summary_dir <- file.path(output_dir, "summary")
-plots_dir <- file.path(output_dir, "plots")
-log_dir <- file.path(output_dir, "log")
-
-summary_dir_presentation <- here::here("output/summary")
-plots_dir_presentation <- here::here("output/plots")
-log_dir_presentation <- here::here("output/log")
+# 2.1 Paths
+data_dir <- "data/02_precleaned_data"
 
 
 # ============================================================
@@ -41,7 +34,7 @@ log_dir_presentation <- here::here("output/log")
 # ============================================================
 # 3.1 Locate latest merged dataset (final precleaned for all analyses)
 input_files <- list.files(data_dir, pattern = "anonymized_final_data_precleaned_.*\\.csv$", full.names = TRUE)
-if (length(input_files) == 0) stop("No cleaned data file found in output/")
+if (length(input_files) == 0) stop("No cleaned data file found in data/02_precleaned_data/")
 
 latest_file <- input_files[which.max(file.info(input_files)$mtime)]
 

@@ -30,6 +30,8 @@ library(lme4)
 library(data.table) # fast data load, fast split-half aggregation, and ICC_stimulus_long
 library(here)
 
+setwd(here::here())
+
 set.seed(12345)
 
 # -----------------------------
@@ -140,9 +142,9 @@ ICC_stimulus_long <- function(participant, stimulus, response, data, outlier_sd 
 # -----------------------------
 # Data: observed cleaned study data
 # -----------------------------
-data_dir <- "clean_data"
+data_dir <- "data/02_precleaned_data"
 input_files <- list.files(data_dir, pattern = "anonymized_final_data_precleaned_.*\\.csv$", full.names = TRUE)
-if (length(input_files) == 0) stop("No cleaned data file found in clean_data/")
+if (length(input_files) == 0) stop("No cleaned data file found in data/02_precleaned_data/")
 file_path <- input_files[which.max(file.info(input_files)$mtime)]
 plog("Using input file: ", file_path)
 

@@ -17,33 +17,28 @@ library(ggplot2)
 library(dePlzMap)
 library(here)
 
+setwd(here::here())
+
 # 1.2 Run metadata
 run_timestamp <- format(Sys.time(), "%Y-%m-%d_%H-%M-%S")
 
 # ============================================================
 # 2. Paths and Logging
 # ============================================================
-# 2.1 Output directories (local + mirror)
+# 2.1 Output directories
 output_dir <- "output"
-data_dir <- "clean_data"
+data_dir <- "data/02_precleaned_data"
 summary_dir <- file.path(output_dir, "summary")
 plots_dir <- file.path(output_dir, "plots")
 log_dir <- file.path(output_dir, "log")
 
-summary_dir_presentation <- here::here("output/summary")
-plots_dir_presentation <- here::here("output/plots")
-log_dir_presentation <- here::here("output/log")
-
 # 2.2 Ensure directories exist
-for (d in c(summary_dir, plots_dir, log_dir, summary_dir_presentation, plots_dir_presentation, log_dir_presentation)) {
+for (d in c(summary_dir, plots_dir, log_dir)) {
   if (!dir.exists(d)) dir.create(d, recursive = TRUE, showWarnings = FALSE)
 }
 
-
-
-# 2.3 Dual log files (both log directories)
-log_file_local <- file.path(log_dir, paste0("analysis_log_", run_timestamp, ".log"))
-log_file_presentation <- file.path(log_dir_presentation, paste0("analysis_log_", run_timestamp, ".log"))
+# 2.3 Log file
+log_file <- file.path(log_dir, paste0("analysis_log_", run_timestamp, ".log"))
 
 log_line <- function(level, ...) {
   line <- sprintf(
@@ -53,8 +48,7 @@ log_line <- function(level, ...) {
     paste(..., collapse = " ")
   )
   cat(line, "\n")
-  write(line, file = log_file_local, append = TRUE)
-  write(line, file = log_file_presentation, append = TRUE)
+  write(line, file = log_file, append = TRUE)
 }
 
 log_stage <- function(...) log_line("STAGE", ...)
@@ -68,52 +62,37 @@ log_table <- function(title, x, useNA = "ifany") {
   }
 }
 
-# 2.4 Save helpers (write to both local + mirror)
-write_csv_both <- function(df, filename, local_dir = summary_dir, mirror_dir = summary_dir_presentation) {
-  local_path <- file.path(local_dir, filename)
-  mirror_path <- file.path(mirror_dir, filename)
-  write_csv(df, local_path, na = "")
-  write_csv(df, mirror_path, na = "")
-  log_info("Saved CSV:", local_path)
-  log_info("Saved CSV mirror:", mirror_path)
+# 2.4 Save helpers
+write_csv_both <- function(df, filename, local_dir = summary_dir) {
+  path <- file.path(local_dir, filename)
+  write_csv(df, path, na = "")
+  log_info("Saved CSV:", path)
 }
 
-save_plot_both <- function(plot_obj, filename, width = 9, height = 6, local_dir = plots_dir, mirror_dir = plots_dir_presentation) {
-  local_path <- file.path(local_dir, filename)
-  mirror_path <- file.path(mirror_dir, filename)
-  ggsave(local_path, plot_obj, width = width, height = height)
-  ggsave(mirror_path, plot_obj, width = width, height = height)
-  log_info("Saved plot:", local_path)
-  log_info("Saved plot mirror:", mirror_path)
+save_plot_both <- function(plot_obj, filename, width = 9, height = 6, local_dir = plots_dir) {
+  path <- file.path(local_dir, filename)
+  ggsave(path, plot_obj, width = width, height = height)
+  log_info("Saved plot:", path)
 }
 
-save_base_plot_both <- function(plot_fn, filename, width = 9, height = 7, local_dir = plots_dir, mirror_dir = plots_dir_presentation) {
-  local_path <- file.path(local_dir, filename)
-  mirror_path <- file.path(mirror_dir, filename)
-
-  save_one <- function(path) {
-    if (capabilities("cairo")) {
-      grDevices::cairo_pdf(path, width = width, height = height, family = "sans")
-    } else {
-      grDevices::pdf(path, width = width, height = height, family = "Helvetica")
-    }
-    plot_obj <- plot_fn()
-    if (inherits(plot_obj, c("ggplot", "grob", "gtable", "patchwork"))) {
-      print(plot_obj)
-    }
-    grDevices::dev.off()
+save_base_plot_both <- function(plot_fn, filename, width = 9, height = 7, local_dir = plots_dir) {
+  path <- file.path(local_dir, filename)
+  if (capabilities("cairo")) {
+    grDevices::cairo_pdf(path, width = width, height = height, family = "sans")
+  } else {
+    grDevices::pdf(path, width = width, height = height, family = "Helvetica")
   }
-
-  save_one(local_path)
-  save_one(mirror_path)
-  log_info("Saved plot:", local_path)
-  log_info("Saved plot mirror:", mirror_path)
+  plot_obj <- plot_fn()
+  if (inherits(plot_obj, c("ggplot", "grob", "gtable", "patchwork"))) {
+    print(plot_obj)
+  }
+  grDevices::dev.off()
+  log_info("Saved plot:", path)
 }
 
 log_stage("2. Paths and logging initialized")
 log_info("Run timestamp:", run_timestamp)
-log_info("Local log file:", log_file_local)
-log_info("Mirror log file:", log_file_presentation)
+log_info("Log file:", log_file)
 
 # ============================================================
 # 3. Load Data
@@ -131,9 +110,13 @@ df <- read_csv(latest_file, show_col_types = FALSE)
 log_info("Rows loaded:", nrow(df))
 log_info("Participants loaded:", dplyr::n_distinct(df$participant_id))
 
-# 3.3 Load snapshot after step 3 (used only for accuracy histogram)
-snapshot_files <- list.files(output_dir, pattern = "snapshot_after_step3_.*\\.csv$", full.names = TRUE)
-if (length(snapshot_files) == 0) stop("No snapshot_after_step3 file found in output/")
+# 3.3 Load snapshot after step 4 (used only for accuracy histogram)
+snapshot_files <- list.files(
+  file.path("data", "01_accuracy_analysis_after_step4_participant_level_exclusions"),
+  pattern = "snapshot_after_step4_.*\\.csv$",
+  full.names = TRUE
+)
+if (length(snapshot_files) == 0) stop("No snapshot_after_step4 file found in data/01_accuracy_analysis_after_step4_participant_level_exclusions/")
 
 latest_snapshot_file <- snapshot_files[which.max(file.info(snapshot_files)$mtime)]
 log_info("Using snapshot file for accuracy histogram:", latest_snapshot_file)
@@ -262,7 +245,7 @@ within_person_accuracy_across_participants <- within_person_accuracy %>%
 participant_summary <- within_person_accuracy %>%
   rename(mean_accuracy = accuracy_mean)
 
-# Participant accuracy summary from step3 snapshot (only for accuracy histogram).
+# Participant accuracy summary from step 4 snapshot (only for accuracy histogram).
 participant_summary_snapshot <- df_snapshot %>%
   mutate(
     accuracy_bin = case_when(
@@ -277,7 +260,7 @@ participant_summary_snapshot <- df_snapshot %>%
     .groups = "drop"
   )
 
-# Accuracy by type from snapshot data (post-step3, pre-step4).
+# Accuracy by type from snapshot data (post-step4, pre-step5).
 accuracy_by_type_snapshot <- df_snapshot %>%
   mutate(
     accuracy_bin = case_when(
@@ -296,7 +279,7 @@ accuracy_by_type_snapshot <- df_snapshot %>%
   ) %>%
   arrange(desc(n))
 
-# Descriptive accuracy statistics based on snapshot data (after step 3).
+# Descriptive accuracy statistics based on snapshot data (after step 4).
 snapshot_accuracy_descriptives <- participant_summary_snapshot %>%
   summarise(
     n_participants = n(),
@@ -589,10 +572,7 @@ save_base_plot_both(
 # ============================================================
 log_stage("7. Final report")
 log_info("Analysis complete.")
-log_info("Summary directory (local):", summary_dir)
-log_info("Summary directory (mirror):", summary_dir_presentation)
-log_info("Plot directory (local):", plots_dir)
-log_info("Plot directory (mirror):", plots_dir_presentation)
-log_info("Log file (local):", log_file_local)
-log_info("Log file (mirror):", log_file_presentation)
+log_info("Summary directory:", summary_dir)
+log_info("Plot directory:", plots_dir)
+log_info("Log file:", log_file)
 
