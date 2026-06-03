@@ -438,9 +438,10 @@
     \frametitle{Reliability of the Item-Level Norms}
     \begin{columns}
         \begin{column}{0.40\textwidth}
-            \begin{block}{What to report}
+            \begin{block}{Estimates}
                 \footnotesize
                 \begin{itemize}
+                    \item \textbf{Dropped Jack's and Erins version} -- convergence issues with \texttt{nlme}.
                     \item \textbf{A5 = Marc's ICC3k $\approx 0.94$} -- internal consistency ($=$ Cronbach's $\alpha$).
                     \item \textbf{A2 = Sascha's ICC3k $\approx 0.93$}  -- ICC3k "not using the harmonic, but the simple mean for the number of data points."
                 \end{itemize}
@@ -451,7 +452,7 @@
         \end{column}
         \begin{column}{0.60\textwidth}
             \begin{center}
-                \includegraphics[width=\textwidth]{plots/reliability_methods_comparison.pdf}
+                \includegraphics[width=\textwidth]{plots/reliability_new.pdf}
                 \captionof{figure}{Item-level reliability by approach (log RT, correct trials; \emph{n} = 2,479), grouped by stimulus set. Dashed line: 0.80; \emph{y}-axis from 0.70.}
             \end{center}
         \end{column}
@@ -470,7 +471,7 @@
             \item \textbf{2,479} participants retained after cleaning (target: 1,440 -- exceeded)
             \item \textbf{3,098,750} cleaned trials
             \item  On average $\approx$ \textbf{40} repetitions per word
-            \item Item-level reliability established (ICC3k $\approx$ 0.93; ICC2k $\approx$ 0.89)
+            \item Item-level reliability established (ICC3k $\approx$ 0.94)
             \item Reproducible preprocessing pipeline (five exclusion steps)
         \end{itemize}
     \end{block}
