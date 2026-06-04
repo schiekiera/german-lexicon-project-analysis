@@ -1,0 +1,13 @@
+[17:08:41] libraries loaded; starting reliability analysis 
+[17:08:41] Using input file: data/02_precleaned_data/anonymized_final_data_precleaned_2026-06-03_16-23-41.csv 
+[17:08:44] Data loaded -- rows: 2881050 | participants: 2475 | items: 77499 
+[17:08:44] A1 mixed ICC: overall 
+[17:10:50] A1 mixed ICC: words_only 
+[17:12:22] A1 mixed ICC: pseudo_only 
+[17:14:03] A3 split-half (200 iters): overall 
+[17:14:45] A3 split-half (200 iters): words_only 
+[17:15:09] A3 split-half (200 iters): pseudo_only 
+[17:15:33] Brysbaert ICCs: overall 
+[17:52:27] Brysbaert ICCs: words_only 
+[18:06:09] Brysbaert ICCs: pseudo_only 
+[18:15:16] DONE -- wrote comparison table, barplot, and BLUP files 

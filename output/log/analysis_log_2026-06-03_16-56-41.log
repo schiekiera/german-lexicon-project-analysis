@@ -1,0 +1,82 @@
+[2026-06-03 16:56:41] [STAGE] 2. Paths and logging initialized
+[2026-06-03 16:56:41] [INFO] Run timestamp: 2026-06-03_16-56-41
+[2026-06-03 16:56:41] [INFO] Log file: output/log/analysis_log_2026-06-03_16-56-41.log
+[2026-06-03 16:56:41] [STAGE] 3. Load data
+[2026-06-03 16:56:41] [INFO] Using input file: data/02_precleaned_data/anonymized_final_data_precleaned_2026-06-03_16-23-41.csv
+[2026-06-03 16:56:53] [INFO] Rows loaded: 3098750
+[2026-06-03 16:56:53] [INFO] Participants loaded: 2479
+[2026-06-03 16:56:53] [INFO] Using snapshot file for accuracy histogram: data/01_accuracy_analysis_after_step4_participant_level_exclusions/snapshot_after_step4_2026-06-03_16-23-41.csv
+[2026-06-03 16:57:05] [INFO] Snapshot rows loaded: 3166250
+[2026-06-03 16:57:05] [INFO] Snapshot participants loaded: 2533
+[2026-06-03 16:57:05] [STAGE] 4. Prepare analysis dataset
+[2026-06-03 16:57:08] [INFO] Valid RT rows: 3098750
+[2026-06-03 16:57:08] [INFO] Trimmed RT rows (200-3000ms): 3050279
+[2026-06-03 16:57:08] [INFO] Participants with valid age: 2475
+[2026-06-03 16:57:08] [STAGE] 5. Compute summary tables
+[2026-06-03 16:57:22] [STAGE] 5. Write summary tables
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_overall.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_age.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_rt_by_type.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_accuracy_by_block.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_accuracy_by_type.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_within_person_accuracy_across_participants.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_accuracy_snapshot_descriptives.csv
+[2026-06-03 16:57:23] [INFO] Saved CSV: output/summary/summary_word_repetitions.csv
+[2026-06-03 16:57:23] [INFO] Word repetitions per item: n_items=77500 mean=39.98 median=40 sd=2.08 range=35-50
+[2026-06-03 16:57:23] [INFO] Snapshot accuracy descriptives: n=2533 mean=0.9286 sd=0.0666 median=0.9440 min=0.0384 max=0.9944
+[2026-06-03 16:57:23] [INFO] Demographic summaries
+[2026-06-03 16:57:23] [INFO] Gender (Geschlecht)
+[2026-06-03 16:57:23] [INFO]  - divers : 27
+[2026-06-03 16:57:23] [INFO]  - keine Antwort : 9
+[2026-06-03 16:57:23] [INFO]  - männlich : 662
+[2026-06-03 16:57:23] [INFO]  - weiblich : 1779
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [INFO] Education (Höchster Bildungsabschluss)
+[2026-06-03 16:57:23] [INFO]  - (Fach-)hochschulreife (z. B. Abitur, Fachabitur) : 1604
+[2026-06-03 16:57:23] [INFO]  - Berufsausbildung : 222
+[2026-06-03 16:57:23] [INFO]  - Hauptschulabschluss : 8
+[2026-06-03 16:57:23] [INFO]  - Hochschulabschluss (Bachelor, Master, Promotion) : 618
+[2026-06-03 16:57:23] [INFO]  - Mittlere Reife/Realschulabschluss : 24
+[2026-06-03 16:57:23] [INFO]  - Ohne Schulabschluss : 1
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [INFO] Handedness (Händigkeit)
+[2026-06-03 16:57:23] [INFO]  - Beidhänder:in : 61
+[2026-06-03 16:57:23] [INFO]  - Linkshänder:in : 232
+[2026-06-03 16:57:23] [INFO]  - Rechtshänder:in : 2184
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [INFO] Native German (Haben Sie Deutsch als Muttersprache (vor dem 2. Lebensjahr) erworben?)
+[2026-06-03 16:57:23] [INFO]  - ja : 2477
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [INFO] Other language early (Haben Sie vor dem 2. Lebensjahr eine andere Sprache als Deutsch gelernt?)
+[2026-06-03 16:57:23] [INFO]  - ja : 338
+[2026-06-03 16:57:23] [INFO]  - nein : 2139
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [INFO] Multilingual (Sind Sie mehrsprachig (d.h., sprechen Sie mehr als eine Sprache)?)
+[2026-06-03 16:57:23] [INFO]  - ja : 2254
+[2026-06-03 16:57:23] [INFO]  - nein : 223
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [INFO] Language variety (Welche ist Ihre vertrauteste Sprechweise?)
+[2026-06-03 16:57:23] [INFO]  - dialekt : 173
+[2026-06-03 16:57:23] [INFO]  - hochdeutsch : 1591
+[2026-06-03 16:57:23] [INFO]  - regional : 713
+[2026-06-03 16:57:23] [INFO]  - NA : 2
+[2026-06-03 16:57:23] [STAGE] 6. Build and save plots
+[2026-06-03 16:57:27] [INFO] Saved plot: output/plots/rt_boxplot_by_type.pdf
+[2026-06-03 16:57:33] [INFO] Saved plot: output/plots/rt_violin_by_type.pdf
+[2026-06-03 16:57:34] [INFO] Saved plot: output/plots/accuracy_by_type.pdf
+[2026-06-03 16:57:34] [INFO] Saved plot: output/plots/accuracy_by_block.pdf
+[2026-06-03 16:57:34] [INFO] Saved plot: output/plots/rt_by_block.pdf
+[2026-06-03 16:57:36] [INFO] Saved plot: output/plots/participant_rt_accuracy_scatter.pdf
+[2026-06-03 16:57:38] [INFO] Saved plot: output/plots/rt_histogram.pdf
+[2026-06-03 16:57:39] [INFO] Saved plot: output/plots/accuracy_histogram.pdf
+[2026-06-03 16:57:39] [INFO] Saved plot: output/plots/age_histogram.pdf
+[2026-06-03 16:57:39] [INFO] Saved plot: output/plots/word_repetitions.pdf
+[2026-06-03 16:57:39] [INFO] Saved CSV: output/summary/summary_origin_group_counts.csv
+[2026-06-03 16:57:39] [INFO] Participants assigned to German origin map: 2264
+[2026-06-03 16:57:39] [INFO] Distinct 2-digit PLZ prefixes in sample: 95
+[2026-06-03 16:58:44] [INFO] Saved plot: output/plots/german_origin_plz_map.pdf
+[2026-06-03 16:58:44] [STAGE] 7. Final report
+[2026-06-03 16:58:44] [INFO] Analysis complete.
+[2026-06-03 16:58:44] [INFO] Summary directory: output/summary
+[2026-06-03 16:58:44] [INFO] Plot directory: output/plots
+[2026-06-03 16:58:44] [INFO] Log file: output/log/analysis_log_2026-06-03_16-56-41.log

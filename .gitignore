@@ -12,9 +12,6 @@ output/duplicate_global_ids.csv
 output/duplicate_global_id_details.csv
 output/duplicate_slots.csv
 
-# Log files (timestamped, accumulate with each run)
-output/log/*.log
-
 # Wrongly-created folders from running scripts with wrong working directory
 scripts/01_preprocessing_hu_group/output/
 scripts/01_preprocessing_hu_group/data/
