@@ -1,6 +1,7 @@
 data/
 presentation/context/
 context/
+.vscode/
 
 # Large/generated output files produced by merger script
 output/exclusions_all_data_cleaned_*.csv
