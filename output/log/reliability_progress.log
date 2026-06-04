@@ -1,13 +1,13 @@
-[23:22:53] libraries loaded; starting reliability analysis 
-[23:22:53] Using input file: clean_data/anonymized_final_data_precleaned_2026-06-02_19-08-11.csv 
-[23:22:55] Data loaded -- rows: 2881050 | participants: 2475 | items: 77499 
-[23:22:55] A1 mixed ICC: overall 
-[23:24:16] A1 mixed ICC: words_only 
-[23:25:16] A1 mixed ICC: pseudo_only 
-[23:26:22] A3 split-half (200 iters): overall 
-[23:26:42] A3 split-half (200 iters): words_only 
-[23:26:53] A3 split-half (200 iters): pseudo_only 
-[23:27:05] Brysbaert ICCs: overall 
-[23:43:30] Brysbaert ICCs: words_only 
-[23:50:08] Brysbaert ICCs: pseudo_only 
-[23:56:49] DONE -- wrote comparison table, barplot, and BLUP files 
+[17:08:41] libraries loaded; starting reliability analysis 
+[17:08:41] Using input file: data/02_precleaned_data/anonymized_final_data_precleaned_2026-06-03_16-23-41.csv 
+[17:08:44] Data loaded -- rows: 2881050 | participants: 2475 | items: 77499 
+[17:08:44] A1 mixed ICC: overall 
+[17:10:50] A1 mixed ICC: words_only 
+[17:12:22] A1 mixed ICC: pseudo_only 
+[17:14:03] A3 split-half (200 iters): overall 
+[17:14:45] A3 split-half (200 iters): words_only 
+[17:15:09] A3 split-half (200 iters): pseudo_only 
+[17:15:33] Brysbaert ICCs: overall 
+[17:52:27] Brysbaert ICCs: words_only 
+[18:06:09] Brysbaert ICCs: pseudo_only 
+[18:15:16] DONE -- wrote comparison table, barplot, and BLUP files 
